@@ -1,0 +1,44 @@
+<?php
+
+namespace App\Repository;
+
+use App\Entity\Campaign;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
+
+/**
+ * @extends ServiceEntityRepository<Campaign>
+ */
+class CampaignRepository extends ServiceEntityRepository
+{
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Campaign::class);
+    }
+
+    //    /**
+    //     * @return Campaign[] Returns an array of Campaign objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('c')
+    //            ->andWhere('c.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('c.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
+
+    public function getTotalRevenueByCampaignId(int $campaignId): float
+    {
+        return $this->createQueryBuilder('c')
+            ->select('SUM(CASE WHEN m.revenue IS NOT NULL AND m.revenue != 0 THEN m.revenue ELSE m.value END)')
+            ->leftJoin('c.metrics', 'm')
+            ->andWhere('c.id = :campaignId')
+            ->setParameter('campaignId', $campaignId)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+}
