@@ -6,7 +6,6 @@ namespace App\Controller;
 use App\Entity\Campaign;
 use App\Repository\CampaignRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -16,18 +15,15 @@ class RoiController extends AbstractController
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
-        private LoggerInterface $logger,
         private CampaignRepository $campaignRepository
     ) {}
 
     public function __invoke(int $id)
     {
-        $this->logger->info('Attempting to retrieve campaign with ID: ' . $id);
         
         $campaign = $this->entityManager->getRepository(Campaign::class)->find($id);
         
         if (!$campaign) {
-            $this->logger->warning('Campaign not found for ID: ' . $id);
             return new JsonResponse(['message' => 'Campaign with ID ' . $id . ' not found.'], JsonResponse::HTTP_NOT_FOUND);
         }
 
