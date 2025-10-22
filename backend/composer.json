@@ -24,7 +24,8 @@
         "doctrine/orm": "^3.5",
         "symfony/twig-bundle": "^7.3",
         "symfony/asset": "^7.3",
-        "symfony/http-client": "^7.3"
+        "symfony/http-client": "^7.3",
+        "nelmio/cors-bundle": "^2.5"
     },
     "require-dev": {
         "symfony/maker-bundle": "^1.64",

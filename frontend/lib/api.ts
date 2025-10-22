@@ -79,12 +79,49 @@ export async function fetchCampaignROI(id: number): Promise<any> {
   return response.json()
 }
 
+export async function fetchCampaignRevenueAndRoi(id: number): Promise<{ totalRevenue: number; roiPercentage: number }> {
+  const response = await fetch(`${API_BASE_URL}/api/campaigns/${id}/roi`);
+  if (!response.ok) {
+    console.error(`Failed to fetch revenue and ROI for campaign ${id}:`, response.status, response.statusText);
+    return { totalRevenue: 0, roiPercentage: 0 };
+  }
+  const data = await response.json();
+  return {
+    totalRevenue: parseFloat(data.totalRevenue || 0),
+    roiPercentage: parseFloat(data.roiPercentage || 0),
+  };
+}
+
 // Affiliate API
-export async function fetchAffiliates(): Promise<any[]> {
-  const response = await fetch(`${API_BASE_URL}/api/affiliates`)
-  if (!response.ok) throw new Error("Failed to fetch affiliates")
-  const data = await response.json()
-  return unwrapCollection(data)
+export async function fetchAffiliates(): Promise<Affiliate[]> {
+  const response = await fetch(`${API_BASE_URL}/affiliates`);
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  return response.json();
+}
+
+export async function fetchMetrics(): Promise<Metric[]> {
+  const response = await fetch(`${API_BASE_URL}/metrics`);
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  return response.json();
+}
+
+export async function fetchChatbotResponse(message: string): Promise<string> {
+  const response = await fetch(`${API_BASE_URL}/chatbot`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ message }),
+  });
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  const data = await response.json();
+  return data.response;
 }
 
 export async function fetchAffiliate(id: number): Promise<any> {

@@ -12,40 +12,143 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        // Create Campaigns with business-focused data
+        $campaigns = [];
+
         $campaign1 = new Campaign();
         $campaign1->setName('Electronics & Gadgets Launch');
-        $campaign1->setBudget(5000.00);
+        $campaign1->setBudget('5000.00');
         $campaign1->setStartDate(new \DateTimeImmutable('2025-06-01'));
         $campaign1->setEndDate(new \DateTimeImmutable('2025-08-31'));
         $campaign1->setStatus('active');
         $manager->persist($campaign1);
+        $campaigns[] = $campaign1;
 
         $campaign2 = new Campaign();
         $campaign2->setName('Winter Apparel Collection');
-        $campaign2->setBudget(3000.00);
+        $campaign2->setBudget('3000.00');
         $campaign2->setStartDate(new \DateTimeImmutable('2025-12-01'));
         $campaign2->setEndDate(new \DateTimeImmutable('2025-12-31'));
         $campaign2->setStatus('draft');
         $manager->persist($campaign2);
+        $campaigns[] = $campaign2;
 
         $campaign3 = new Campaign();
         $campaign3->setName('Academic Resources Platform');
-        $campaign3->setBudget(7500.00);
+        $campaign3->setBudget('7500.00');
         $campaign3->setStartDate(new \DateTimeImmutable('2025-08-15'));
         $campaign3->setEndDate(new \DateTimeImmutable('2025-09-15'));
         $campaign3->setStatus('active');
         $manager->persist($campaign3);
+        $campaigns[] = $campaign3;
 
         $campaign4 = new Campaign();
         $campaign4->setName('Fashion Brand Relaunch');
-        $campaign4->setBudget(12000.00);
+        $campaign4->setBudget('12000.00');
         $campaign4->setStartDate(new \DateTimeImmutable('2025-03-01'));
         $campaign4->setEndDate(new \DateTimeImmutable('2025-05-31'));
         $campaign4->setStatus('completed');
         $manager->persist($campaign4);
+        $campaigns[] = $campaign4;
 
         $campaign5 = new Campaign();
+        $campaign5->setName('Summer Travel Deals');
+        $campaign5->setBudget('8000.00');
+        $campaign5->setStartDate(new \DateTimeImmutable('2025-06-15'));
+        $campaign5->setEndDate(new \DateTimeImmutable('2025-07-31'));
+        $campaign5->setStatus('active');
+        $manager->persist($campaign5);
+        $campaigns[] = $campaign5;
+
+        $campaign6 = new Campaign();
+        $campaign6->setName('Home Decor Collection');
+        $campaign6->setBudget('4500.00');
+        $campaign6->setStartDate(new \DateTimeImmutable('2025-09-01'));
+        $campaign6->setEndDate(new \DateTimeImmutable('2025-10-31'));
+        $campaign6->setStatus('draft');
+        $manager->persist($campaign6);
+        $campaigns[] = $campaign6;
+
+        $campaign7 = new Campaign();
+        $campaign7->setName('Fitness Challenge Program');
+        $campaign7->setBudget('6000.00');
+        $campaign7->setStartDate(new \DateTimeImmutable('2025-01-01'));
+        $campaign7->setEndDate(new \DateTimeImmutable('2025-02-28'));
+        $campaign7->setStatus('active');
+        $manager->persist($campaign7);
+        $campaigns[] = $campaign7;
+
+        $campaign8 = new Campaign();
+        $campaign8->setName('Kids Toy Drive');
+        $campaign8->setBudget('2000.00');
+        $campaign8->setStartDate(new \DateTimeImmutable('2025-11-01'));
+        $campaign8->setEndDate(new \DateTimeImmutable('2025-12-15'));
+        $campaign8->setStatus('pending');
+        $manager->persist($campaign8);
+        $campaigns[] = $campaign8;
+
+        $campaign9 = new Campaign();
+        $campaign9->setName('Sustainable Living Expo');
+        $campaign9->setBudget('10000.00');
+        $campaign9->setStartDate(new \DateTimeImmutable('2025-04-01'));
+        $campaign9->setEndDate(new \DateTimeImmutable('2025-04-30'));
+        $campaign9->setStatus('completed');
+        $manager->persist($campaign9);
+        $campaigns[] = $campaign9;
+
+        $campaign10 = new Campaign();
+        $campaign10->setName('Pet Care Product Launch');
+        $campaign10->setBudget('3500.00');
+        $campaign10->setStartDate(new \DateTimeImmutable('2025-07-01'));
+        $campaign10->setEndDate(new \DateTimeImmutable('2025-08-15'));
+        $campaign10->setStatus('active');
+        $manager->persist($campaign10);
+        $campaigns[] = $campaign10;
+
+        $campaign11 = new Campaign();
+        $campaign11->setName('Gourmet Food Festival');
+        $campaign11->setBudget('9000.00');
+        $campaign11->setStartDate(new \DateTimeImmutable('2025-10-01'));
+        $campaign11->setEndDate(new \DateTimeImmutable('2025-10-15'));
+        $campaign11->setStatus('draft');
+        $manager->persist($campaign11);
+        $campaigns[] = $campaign11;
+
+        $campaign12 = new Campaign();
+        $campaign12->setName('Digital Marketing Workshop');
+        $campaign12->setBudget('2500.00');
+        $campaign12->setStartDate(new \DateTimeImmutable('2025-03-10'));
+        $campaign12->setEndDate(new \DateTimeImmutable('2025-03-12'));
+        $campaign12->setStatus('completed');
+        $manager->persist($campaign12);
+        $campaigns[] = $campaign12;
+
+        $campaign13 = new Campaign();
+        $campaign13->setName('Art Exhibition Promotion');
+        $campaign13->setBudget('5500.00');
+        $campaign13->setStartDate(new \DateTimeImmutable('2025-05-01'));
+        $campaign13->setEndDate(new \DateTimeImmutable('2025-05-31'));
+        $campaign13->setStatus('active');
+        $manager->persist($campaign13);
+        $campaigns[] = $campaign13;
+
+        $campaign14 = new Campaign();
+        $campaign14->setName('Charity Gala Event');
+        $campaign14->setBudget('15000.00');
+        $campaign14->setStartDate(new \DateTimeImmutable('2025-11-20'));
+        $campaign14->setEndDate(new \DateTimeImmutable('2025-11-20'));
+        $campaign14->setStatus('pending');
+        $manager->persist($campaign14);
+        $campaigns[] = $campaign14;
+
+        $campaign15 = new Campaign();
+        $campaign15->setName('New Year Sales Campaign');
+        $campaign15->setBudget('7000.00');
+        $campaign15->setStartDate(new \DateTimeImmutable('2025-12-26'));
+        $campaign15->setEndDate(new \DateTimeImmutable('2026-01-05'));
+        $campaign15->setStatus('draft');
+        $manager->persist($campaign15);
+        $campaigns[] = $campaign15;
+
         $campaign5->setName('Home Improvement Tools');
         $campaign5->setBudget(8500.00);
         $campaign5->setStartDate(new \DateTimeImmutable('2025-04-01'));
@@ -351,6 +454,7 @@ class AppFixtures extends Fixture
         $metric10a->setTimestamp(new \DateTimeImmutable('2025-09-10'));
         $metric10a->setCampaign($campaign3);
         $manager->persist($metric10a);
+        $campaign3->calculateRevenueAndRoi();
 
         // Campaign 4 Metrics (Fashion Brand Relaunch)
         $metric11 = new Metric();
@@ -376,6 +480,7 @@ class AppFixtures extends Fixture
         $metric13->setTimestamp(new \DateTimeImmutable('2025-04-15'));
         $metric13->setCampaign($campaign4);
         $manager->persist($metric13);
+        $campaign4->calculateRevenueAndRoi();
 
         // Campaign 5 Metrics (Home Improvement Tools)
         $metric14 = new Metric();
@@ -409,6 +514,7 @@ class AppFixtures extends Fixture
         $metric16a->setTimestamp(new \DateTimeImmutable('2025-06-01'));
         $metric16a->setCampaign($campaign5);
         $manager->persist($metric16a);
+        $campaign5->calculateRevenueAndRoi();
 
         // Campaign 6 Metrics (Health & Fitness App)
         $metric17 = new Metric();
@@ -450,6 +556,7 @@ class AppFixtures extends Fixture
         $metric20a->setTimestamp(new \DateTimeImmutable('2025-03-10'));
         $metric20a->setCampaign($campaign6);
         $manager->persist($metric20a);
+        $campaign6->calculateRevenueAndRoi();
 
         // Campaign 7 Metrics (E-commerce Platform Sale)
         $metric21 = new Metric();
@@ -476,7 +583,6 @@ class AppFixtures extends Fixture
         $metric23->setCampaign($campaign7);
         $manager->persist($metric23);
 
-        // Campaign 8 Metrics (Digital Services Bundle)
         $metric24 = new Metric();
         $metric24->setName('Service Page Visits');
         $metric24->setValue('4800.00');
@@ -501,7 +607,6 @@ class AppFixtures extends Fixture
         $metric26->setCampaign($campaign8);
         $manager->persist($metric26);
 
-        // Campaign 9 Metrics (Premium Beauty Products)
         $metric27 = new Metric();
         $metric27->setName('Beauty Product Views');
         $metric27->setValue('2700.00');
@@ -526,7 +631,6 @@ class AppFixtures extends Fixture
         $metric29->setCampaign($campaign9);
         $manager->persist($metric29);
 
-        // Campaign 10 Metrics (Family Entertainment Package)
         $metric30 = new Metric();
         $metric30->setName('Entertainment Signups');
         $metric30->setValue('975.00');
@@ -551,7 +655,6 @@ class AppFixtures extends Fixture
         $metric32->setCampaign($campaign10);
         $manager->persist($metric32);
 
-        // Campaign 11 Metrics (Professional Development Courses)
         $metric33 = new Metric();
         $metric33->setName('Course Catalog Views');
         $metric33->setValue('3150.00');
@@ -576,7 +679,6 @@ class AppFixtures extends Fixture
         $metric35->setCampaign($campaign11);
         $manager->persist($metric35);
 
-        // Campaign 12 Metrics (Technology Solutions Suite)
         $metric36 = new Metric();
         $metric36->setName('Tech Solution Searches');
         $metric36->setValue('2400.00');
@@ -601,7 +703,6 @@ class AppFixtures extends Fixture
         $metric38->setCampaign($campaign12);
         $manager->persist($metric38);
 
-        // Campaign 13 Metrics (Outdoor Adventure Gear)
         $metric39 = new Metric();
         $metric39->setName('Adventure Gear Views');
         $metric39->setValue('1800.00');
@@ -675,6 +776,17 @@ class AppFixtures extends Fixture
         $metric47->setTimestamp(new \DateTimeImmutable('2025-11-28'));
         $metric47->setCampaign($campaign15);
         $manager->persist($metric47);
+
+        $manager->flush();
+
+        // Ensure all campaigns have up-to-date aggregates after metrics are inserted
+        $allCampaigns = $manager->getRepository(Campaign::class)->findAll();
+        foreach ($allCampaigns as $campaign) {
+            if ($campaign instanceof Campaign) {
+                $campaign->calculateRevenueAndRoi();
+                $manager->persist($campaign);
+            }
+        }
 
         $manager->flush();
     }

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
-import { fetchCampaign, API_BASE_URL } from "@/lib/api"
+import { fetchCampaign, API_BASE_URL, fetchCampaignRevenueAndRoi } from "@/lib/api"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ChatInterface } from "@/components/ai/chat-interface"
@@ -24,6 +24,9 @@ export default function CampaignDetailPage() {
       try {
         const campaignData = await fetchCampaign(campaignId)
         setCampaign(campaignData)
+
+        const { totalRevenue, roiPercentage } = await fetchCampaignRevenueAndRoi(campaignId);
+        setCampaign((prev: any) => ({ ...prev, totalRevenue, roiPercentage }));
 
         const fetchIri = async (iri: string) => {
           try {
@@ -143,7 +146,7 @@ export default function CampaignDetailPage() {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground font-medium">Revenue Generated</p>
-                  <p className="text-3xl font-bold text-emerald-600 mt-1">{formatCurrency(campaign.revenue || 0)}</p>
+                  <p className="text-3xl font-bold text-emerald-600 mt-1">{formatCurrency(campaign.totalRevenue || 0)}</p>
                 </div>
               </div>
             </Card>
@@ -156,7 +159,7 @@ export default function CampaignDetailPage() {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground font-medium">Return on Investment</p>
-                  <p className="text-3xl font-bold text-blue-600 mt-1">{campaign.roi?.toFixed(2) || '0.00'}%</p>
+                  <p className="text-3xl font-bold text-blue-600 mt-1">{campaign.roiPercentage?.toFixed(2) || '0.00'}%</p>
                 </div>
               </div>
             </Card>
@@ -184,7 +187,7 @@ export default function CampaignDetailPage() {
                   </div>
                   <div className="text-right">
                     <p className="text-sm text-muted-foreground mb-1">Current ROI</p>
-                    <p className="text-2xl font-bold text-blue-600">{campaign.roi?.toFixed(2) || '0.00'}%</p>
+                    <p className="text-2xl font-bold text-blue-600">{campaign.roiPercentage?.toFixed(2) || '0.00'}%</p>
                   </div>
                 </div>
 

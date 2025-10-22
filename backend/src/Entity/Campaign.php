@@ -26,12 +26,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new Get(),
         new Post(),
         new Put(),
-        new Delete(),
-        new Get(
-            uriTemplate: '/campaigns/{id}/roi',
-            controller: RoiController::class,
-            name: 'get_roi'
-        )
+        new Delete()
     ],
     normalizationContext: ['groups' => ['campaign:read']],
     denormalizationContext: ['groups' => ['campaign:write']]
@@ -42,43 +37,51 @@ class Campaign
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['campaign:read'])]
+    #[Groups(['campaign:read', 'campaign:read:full'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['campaign:read', 'campaign:write'])]
+    #[Groups(['campaign:read', 'campaign:write', 'campaign:read:full'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, options: ["default" => "0.00"])]
-    #[Groups(['campaign:read', 'campaign:write'])]
+    #[Groups(['campaign:read', 'campaign:write', 'campaign:read:full'])]
     private ?string $budget = '0.00';
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, options: ["default" => "0.00"])]
+    #[Groups(['campaign:read', 'campaign:read:full'])]
+    private ?string $totalRevenue = '0.00';
+
+    #[ORM\Column(type: Types::FLOAT, precision: 10, scale: 2, options: ["default" => "0.00"])]
+    #[Groups(['campaign:read', 'campaign:read:full'])]
+    private ?float $roiPercentage = 0.00;
+
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
-    #[Groups(['campaign:read', 'campaign:write'])]
+    #[Groups(['campaign:read', 'campaign:write', 'campaign:read:full'])]
     private ?\DateTimeImmutable $startDate = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
-    #[Groups(['campaign:read', 'campaign:write'])]
+    #[Groups(['campaign:read', 'campaign:write', 'campaign:read:full'])]
     private ?\DateTimeImmutable $endDate = null;
 
     #[ORM\Column(length: 255, options: ["default" => "draft"])]
-    #[Groups(['campaign:read', 'campaign:write'])]
+    #[Groups(['campaign:read', 'campaign:write', 'campaign:read:full'])]
     private ?string $status = 'draft';
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
-    #[Groups(['campaign:read'])]
+    #[Groups(['campaign:read', 'campaign:read:full'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
-    #[Groups(['campaign:read'])]
+    #[Groups(['campaign:read', 'campaign:read:full'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\OneToMany(mappedBy: 'campaign', targetEntity: Metric::class, orphanRemoval: true)]
-    #[Groups(['campaign:read'])]
+    #[Groups(['campaign:read', 'campaign:read:full'])]
     private Collection $metrics;
 
     #[ORM\ManyToMany(targetEntity: Affiliate::class, inversedBy: 'campaigns')]
-    #[Groups(['campaign:read', 'campaign:write'])]
+    #[Groups(['campaign:read', 'campaign:write', 'campaign:read:full'])]
     private Collection $affiliates;
 
     public function __construct()
@@ -94,12 +97,44 @@ class Campaign
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
+        $this->calculateRevenueAndRoi();
     }
 
     #[ORM\PreUpdate]
     public function preUpdate(): void
     {
         $this->updatedAt = new \DateTimeImmutable();
+        $this->calculateRevenueAndRoi();
+    }
+
+    public function calculateRevenueAndRoi(): void
+    {
+        $totalRevenue = 0.0;
+        foreach ($this->getMetrics() as $metric) {
+            $metricRevenue = $metric->getRevenue();
+            if ($metricRevenue !== null && (float) $metricRevenue > 0) {
+                $totalRevenue += (float) $metricRevenue;
+            } else {
+                $name = $metric->getName() ?? '';
+                if (stripos($name, 'revenue') !== false) {
+                    $value = $metric->getValue();
+                    if ($value !== null) {
+                        $totalRevenue += (float) $value;
+                    }
+                }
+            }
+        }
+
+        // Persist as a decimal string with 2 fraction digits
+        $this->totalRevenue = number_format($totalRevenue, 2, '.', '');
+
+        $budget = (float) $this->getBudget();
+        if ($budget > 0) {
+            $roiPercentage = (($totalRevenue - $budget) / $budget) * 100;
+            $this->setRoiPercentage(round($roiPercentage, 2));
+        } else {
+            $this->setRoiPercentage(0.00);
+        }
     }
 
     public function getId(): ?int
@@ -119,7 +154,7 @@ class Campaign
         return $this;
     }
 
-    public function getBudget(): ?float
+    public function getBudget(): ?string
     {
         return $this->budget;
     }
@@ -127,6 +162,30 @@ class Campaign
     public function setBudget(string $budget): static
     {
         $this->budget = $budget;
+
+        return $this;
+    }
+
+    public function getTotalRevenue(): ?string
+    {
+        return $this->totalRevenue;
+    }
+
+    public function setTotalRevenue(string $totalRevenue): static
+    {
+        $this->totalRevenue = $totalRevenue;
+
+        return $this;
+    }
+
+    public function getRoiPercentage(): ?float
+    {
+        return $this->roiPercentage;
+    }
+
+    public function setRoiPercentage(float $roiPercentage): static
+    {
+        $this->roiPercentage = $roiPercentage;
 
         return $this;
     }
@@ -212,7 +271,6 @@ class Campaign
     public function removeMetric(Metric $metric): static
     {
         if ($this->metrics->removeElement($metric)) {
-            // set the owning side to null (unless already changed)
             if ($metric->getCampaign() === $this) {
                 $metric->setCampaign(null);
             }
@@ -247,3 +305,4 @@ class Campaign
 
 
 }
+

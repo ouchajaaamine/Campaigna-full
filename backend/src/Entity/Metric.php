@@ -182,7 +182,21 @@ class Metric
 
     public function setCampaign(?Campaign $campaign): static
     {
+        if ($this->campaign === $campaign) {
+            return $this;
+        }
+
+        if ($this->campaign !== null) {
+            $old = $this->campaign;
+            $this->campaign = null;
+            $old->removeMetric($this);
+        }
+
         $this->campaign = $campaign;
+
+        if ($campaign !== null && !$campaign->getMetrics()->contains($this)) {
+            $campaign->addMetric($this);
+        }
 
         return $this;
     }
@@ -208,5 +222,15 @@ class Metric
     public function setUpdatedAt(): void
     {
         $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function recalculateCampaignAggregates(): void
+    {
+        // Ensure parent campaign aggregates stay consistent when metrics change
+        if ($this->campaign) {
+            $this->campaign->calculateRevenueAndRoi();
+        }
     }
 }
