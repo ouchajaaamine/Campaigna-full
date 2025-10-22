@@ -48,7 +48,6 @@ export default function CampaignsPage() {
           fetchMetrics(500),
         ])
 
-        // No need to fetch revenue and ROI separately, it's now part of the campaign object
         const updatedCampaigns = campaignsData.map((campaign: any) => ({
           ...campaign,
           totalRevenue: parseFloat(campaign.totalRevenue || 0),
@@ -70,8 +69,10 @@ export default function CampaignsPage() {
     return {
       ...campaign,
       budget: `$${campaign.budget}`,
-      revenue: formatCurrency(parseFloat(campaign.revenue) || 0),
-      roi: `${campaign.roi?.toFixed(2) || '0.00'}%`,
+      revenueNumber: Number(campaign.totalRevenue ?? 0),
+      revenue: formatCurrency(Number(campaign.totalRevenue ?? 0)),
+      roiNumber: Number(campaign.roiPercentage ?? 0),
+      roi: `${Number(campaign.roiPercentage ?? 0).toFixed(2)}%`,
     }
   })
 
@@ -618,11 +619,11 @@ export default function CampaignsPage() {
                         </div>
                       </td>
                       <td className="p-4 font-medium">{campaign.budget}</td>
-                      <td className="p-4">{formatCurrency(parseFloat(campaign.revenue) || 0)}</td>
+                      <td className="p-4">{formatCurrency(campaign.revenueNumber || 0)}</td>
                       <td className="p-4">
                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          parseFloat(campaign.roi) > 100 ? 'bg-green-100 text-green-800' :
-                          parseFloat(campaign.roi) > 0 ? 'bg-yellow-100 text-yellow-800' :
+                          campaign.roiNumber > 100 ? 'bg-green-100 text-green-800' :
+                          campaign.roiNumber > 0 ? 'bg-yellow-100 text-yellow-800' :
                           'bg-red-100 text-red-800'
                         }`}>
                           {campaign.roi}

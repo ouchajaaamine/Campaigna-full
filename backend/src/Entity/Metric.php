@@ -24,31 +24,31 @@ class Metric
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['metric:read'])]
+    #[Groups(['metric:read', 'campaign:read:full'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['metric:read', 'metric:write'])]
+    #[Groups(['metric:read', 'metric:write', 'campaign:read:full'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    #[Groups(['metric:read', 'metric:write'])]
+    #[Groups(['metric:read', 'metric:write', 'campaign:read:full'])]
     private ?string $value = '0.00';
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['metric:read', 'metric:write'])]
+    #[Groups(['metric:read', 'metric:write', 'campaign:read:full'])]
     private ?int $clicks = 0;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['metric:read', 'metric:write'])]
+    #[Groups(['metric:read', 'metric:write', 'campaign:read:full'])]
     private ?int $conversions = 0;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
-    #[Groups(['metric:read', 'metric:write'])]
+    #[Groups(['metric:read', 'metric:write', 'campaign:read:full'])]
     private ?string $revenue = '0.00';
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['metric:read', 'metric:write'])]
+    #[Groups(['metric:read', 'metric:write', 'campaign:read:full'])]
     private ?string $notes = null;
 
     #[Groups(['metric:read'])]
@@ -64,20 +64,20 @@ class Metric
     }
 
     #[ORM\Column]
-    #[Groups(['metric:read', 'metric:write'])]
+    #[Groups(['metric:read', 'metric:write', 'campaign:read:full'])]
     private ?\DateTimeImmutable $timestamp = null;
 
     #[ORM\ManyToOne(inversedBy: 'metrics')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['metric:read', 'metric:write'])]
+    #[Groups(['metric:read', 'metric:write', 'campaign:read:full'])]
     private ?Campaign $campaign = null;
 
     #[ORM\Column]
-    #[Groups(['metric:read'])]
+    #[Groups(['metric:read', 'campaign:read:full'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
-    #[Groups(['metric:read'])]
+    #[Groups(['metric:read', 'campaign:read:full'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
     public function __construct()

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
-import { fetchCampaign, API_BASE_URL, fetchCampaignRevenueAndRoi } from "@/lib/api"
+import { fetchCampaign, API_BASE_URL } from "@/lib/api"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ChatInterface } from "@/components/ai/chat-interface"
@@ -25,8 +25,18 @@ export default function CampaignDetailPage() {
         const campaignData = await fetchCampaign(campaignId)
         setCampaign(campaignData)
 
-        const { totalRevenue, roiPercentage } = await fetchCampaignRevenueAndRoi(campaignId);
-        setCampaign((prev: any) => ({ ...prev, totalRevenue, roiPercentage }));
+        
+        const totalRevenue = Number(campaignData.totalRevenue ?? 0)
+        const roiPercentage = Number(campaignData.roiPercentage ?? 0)
+        setCampaign((prev: any) => ({
+          ...prev,
+          totalRevenue,
+          roiPercentage,
+          revenue: totalRevenue,
+          revenueNumber: totalRevenue,
+          roi: `${roiPercentage.toFixed(2)}%`,
+          roiNumber: roiPercentage,
+        }));
 
         const fetchIri = async (iri: string) => {
           try {
@@ -181,8 +191,8 @@ export default function CampaignDetailPage() {
                   <div>
                     <p className="text-sm text-muted-foreground mb-1">Budget Spent</p>
                     <p className="text-2xl font-bold text-foreground">
-                      {formatCurrency(campaign.revenue || 0)} 
-                      <span className="text-lg text-muted-foreground font-normal"> / {formatCurrency(campaign.budget)}</span>
+                      {formatCurrency(campaign.totalRevenue ?? campaign.revenue ?? 0)} 
+                        <span className="text-lg text-muted-foreground font-normal"> / {formatCurrency(Number(campaign.budget) ?? 0)}</span>
                     </p>
                   </div>
                   <div className="text-right">
@@ -192,8 +202,8 @@ export default function CampaignDetailPage() {
                 </div>
 
                 {campaign.budget > 0 ? (
-                  (() => {
-                    const percent = Math.min(100, Math.round(((campaign.revenue || 0) / campaign.budget) * 100))
+                    (() => {
+                    const percent = Math.min(100, Math.round(((campaign.totalRevenue ?? campaign.revenue ?? 0) / Number(campaign.budget || 0)) * 100))
                     return (
                       <div>
                         <div className="relative w-full bg-muted/20 h-4 rounded-full overflow-hidden">
@@ -206,7 +216,7 @@ export default function CampaignDetailPage() {
                         </div>
                         <div className="flex items-center justify-between mt-3">
                           <p className="text-sm text-muted-foreground">{percent}% of budget utilized</p>
-                          <p className="text-sm font-medium text-foreground">{formatCurrency(campaign.budget - (campaign.revenue || 0))} remaining</p>
+                          <p className="text-sm font-medium text-foreground">{formatCurrency(Number(campaign.budget || 0) - (campaign.totalRevenue ?? campaign.revenue ?? 0))} remaining</p>
                         </div>
                       </div>
                     )

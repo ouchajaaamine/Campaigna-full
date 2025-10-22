@@ -18,6 +18,8 @@ interface CampaignCardProps {
     conversions?: number
     revenue?: string
     roi?: string
+    revenueNumber?: number
+    roiNumber?: number
   }
   onEdit?: (campaign: any) => void
   onDelete?: (campaignId: number) => void
@@ -106,21 +108,21 @@ export function CampaignCard({ campaign, onEdit, onDelete }: CampaignCardProps) 
         </div>
 
 
-        {campaign.revenue && (
-          <div className="flex items-center justify-between pt-3 border-t border-border/50">
-            <div>
-              <p className="text-xs text-muted-foreground mb-0.5">Revenue</p>
-              <p className="text-sm font-semibold text-primary">{campaign.revenue}</p>
-            </div>
-            <div className="text-right">
-              <p className="text-xs text-muted-foreground mb-0.5">ROI</p>
-              <div className="flex items-center gap-1">
-                <TrendingUp className="h-3 w-3 text-green-600" />
-                <p className="text-sm font-semibold text-green-600">{campaign.roi}</p>
-              </div>
+        <div className="flex items-center justify-between pt-3 border-t border-border/50">
+          <div>
+            <p className="text-xs text-muted-foreground mb-0.5">Revenue</p>
+            <p className="text-sm font-semibold text-primary">{campaign.revenue ?? "$0.00"}</p>
+          </div>
+          <div className="text-right">
+            <p className="text-xs text-muted-foreground mb-0.5">ROI</p>
+            <div className="flex items-center gap-1">
+              <TrendingUp className={`h-3 w-3 ${campaign.roiNumber && campaign.roiNumber > 0 ? 'text-green-600' : 'text-red-600'}`} />
+              <p className={`text-sm font-semibold ${campaign.roiNumber && campaign.roiNumber > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                {campaign.roi ?? '0.00%'}
+              </p>
             </div>
           </div>
-        )}
+        </div>
       </div>
     </Card>
   )

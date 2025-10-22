@@ -23,7 +23,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     operations: [
         new GetCollection(),
-        new Get(),
+        new Get(normalizationContext: ['groups' => ['campaign:read:full']]),
         new Post(),
         new Put(),
         new Delete()
@@ -125,7 +125,6 @@ class Campaign
             }
         }
 
-        // Persist as a decimal string with 2 fraction digits
         $this->totalRevenue = number_format($totalRevenue, 2, '.', '');
 
         $budget = (float) $this->getBudget();
