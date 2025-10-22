@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Psr\Log\LoggerInterface;
 
 class ChatbotService
 {
@@ -15,18 +16,21 @@ class ChatbotService
     private string $openRouterToken;
     private EntityManagerInterface $entityManager;
     private CacheInterface $cache;
+    private LoggerInterface $logger;
     private const OPENROUTER_MODEL = 'openai/gpt-4o-mini';
 
     public function __construct(
         HttpClientInterface $httpClient,
         ParameterBagInterface $parameterBag,
         EntityManagerInterface $entityManager,
-        CacheInterface $cache
+        CacheInterface $cache,
+        LoggerInterface $logger
     ) {
         $this->httpClient = $httpClient;
         $this->openRouterToken = $parameterBag->get('openrouter_token');
         $this->entityManager = $entityManager;
         $this->cache = $cache;
+        $this->logger = $logger;
     }
 
     public function generateResponse(string $query, ?array $campaignContext = null): string
@@ -94,6 +98,8 @@ class ChatbotService
         if ($statusCode !== 200) {
             $errorData = $response->toArray(false);
             $errorMessage = $errorData['error']['message'] ?? "OpenRouter API returned status code: {$statusCode}";
+            // Log the full error response for debugging
+            $this->logger->error('OpenRouter API Error: ' . $errorMessage, ['response' => $errorData]);
             throw new \Exception($errorMessage);
         }
 
