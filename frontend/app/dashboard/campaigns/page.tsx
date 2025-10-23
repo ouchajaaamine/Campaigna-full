@@ -43,19 +43,8 @@ export default function CampaignsPage() {
   useEffect(() => {
     async function loadData() {
       try {
-        const [campaignsData, metricsData] = await Promise.all([
-          fetchCampaigns(),
-          fetchMetrics(500),
-        ])
-
-        const updatedCampaigns = campaignsData.map((campaign: any) => ({
-          ...campaign,
-          totalRevenue: parseFloat(campaign.totalRevenue || 0),
-          roiPercentage: parseFloat(campaign.roiPercentage || 0),
-        }))
-
-        setCampaigns(updatedCampaigns)
-        setMetrics(metricsData)
+        const [campaignsData, metricsData] = await Promise.all([fetchCampaigns(), fetchMetrics()])
+        setCampaigns(campaignsData)
       } catch (error) {
         console.error("[v0] Error loading campaigns:", error)
       } finally {

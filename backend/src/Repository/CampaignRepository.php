@@ -11,6 +11,11 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CampaignRepository extends ServiceEntityRepository
 {
+    /**
+     * Constructor for CampaignRepository.
+     *
+     * Sets up the repository with the manager registry.
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Campaign::class);
@@ -31,6 +36,14 @@ class CampaignRepository extends ServiceEntityRepository
     //        ;
     //    }
 
+    /**
+     * Get the total revenue for a campaign by its ID.
+     *
+     * It sums up the revenue from metrics, or uses the value if revenue is not set.
+     *
+     * @param int $campaignId The ID of the campaign.
+     * @return float The total revenue as a float.
+     */
     public function getTotalRevenueByCampaignId(int $campaignId): float
     {
         return $this->createQueryBuilder('c')

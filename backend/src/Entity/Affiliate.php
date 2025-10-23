@@ -81,6 +81,10 @@ class Affiliate
     }
 
     /**
+     * Get the campaigns for this affiliate.
+     *
+     * Returns a Collection of Campaign objects.
+     *
      * @return Collection<int, Campaign>
      */
     public function getCampaigns(): Collection

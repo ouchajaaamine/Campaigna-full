@@ -1,31 +1,43 @@
+// Resolve API base URL from environment first (works in Docker), fallback to localhost for local dev
 export const API_BASE_URL = (typeof process !== 'undefined' && process.env.NEXT_PUBLIC_API_BASE_URL)
   ? process.env.NEXT_PUBLIC_API_BASE_URL
   : (process.env.API_BASE_URL || "http://localhost:8000")
 
+// Helper to unwrap API Platform JSON-LD collections
 function unwrapCollection(json: any): any[] {
   if (!json) return []
+  // API Platform JSON-LD uses 'hydra:member' for collections
   if (Array.isArray(json["hydra:member"])) return json["hydra:member"]
+  // Fallback for custom/JSON format collections
   if (Array.isArray(json.member)) return json.member
+  // Sometimes the response could be a raw array
   if (Array.isArray(json)) return json
   return []
 }
 
+// Campaign API
 export async function fetchCampaigns(): Promise<any[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/campaigns`, { headers: { Accept: 'application/ld+json' } })
+    console.log('Fetching campaigns from:', `${API_BASE_URL}/api/campaigns`)
+    const response = await fetch(`${API_BASE_URL}/api/campaigns`)
+    console.log('Campaigns response status:', response.status)
     if (!response.ok) {
+      console.error('Campaigns fetch failed:', response.status, response.statusText)
       throw new Error(`Failed to fetch campaigns: ${response.status}`)
     }
     const data = await response.json()
+    console.log('Campaigns raw data:', data)
     const campaigns = unwrapCollection(data)
+    console.log('Campaigns unwrapped:', campaigns.length, 'items')
     return campaigns
   } catch (error) {
+    console.error('Error in fetchCampaigns:', error)
     throw error
   }
 }
 
 export async function fetchCampaign(id: number): Promise<any> {
-  const response = await fetch(`${API_BASE_URL}/api/campaigns/${id}`, { headers: { Accept: 'application/ld+json' } })
+  const response = await fetch(`${API_BASE_URL}/api/campaigns/${id}`)
   if (!response.ok) throw new Error("Failed to fetch campaign")
   return response.json()
 }
@@ -61,29 +73,31 @@ export async function deleteCampaign(id: number): Promise<void> {
   if (!response.ok) throw new Error("Failed to delete campaign")
 }
 
+export async function fetchCampaignROI(id: number): Promise<any> {
+  const response = await fetch(`${API_BASE_URL}/api/campaigns/${id}/roi`)
+  if (!response.ok) throw new Error("Failed to fetch ROI")
+  return response.json()
+}
+
+export async function fetchCampaignRevenueAndRoi(id: number): Promise<{ totalRevenue: number; roiPercentage: number }> {
+  const response = await fetch(`${API_BASE_URL}/api/campaigns/${id}/roi`);
+  if (!response.ok) {
+    console.error(`Failed to fetch revenue and ROI for campaign ${id}:`, response.status, response.statusText);
+    return { totalRevenue: 0, roiPercentage: 0 };
+  }
+  const data = await response.json();
+  return {
+    totalRevenue: parseFloat(data.totalRevenue || 0),
+    roiPercentage: parseFloat(data.roiPercentage || 0),
+  };
+}
 
 // Affiliate API
 export async function fetchAffiliates(): Promise<any[]> {
-  const response = await fetch(`${API_BASE_URL}/api/affiliates`);
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-  const data = await response.json();
-  return unwrapCollection(data);
-}
-export async function fetchChatbotResponse(message: string): Promise<string> {
-  const response = await fetch(`${API_BASE_URL}/api/chatbot`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ message }),
-  });
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-  const data = await response.json();
-  return data.response;
+  const response = await fetch(`${API_BASE_URL}/api/affiliates`)
+  if (!response.ok) throw new Error("Failed to fetch affiliates")
+  const data = await response.json()
+  return unwrapCollection(data)
 }
 
 export async function fetchAffiliate(id: number): Promise<any> {
@@ -93,6 +107,7 @@ export async function fetchAffiliate(id: number): Promise<any> {
 }
 
 export async function createAffiliate(data: { name: string; email: string; campaigns?: string[] }): Promise<any> {
+  console.log("Creating affiliate with data:", data)
   const response = await fetch(`${API_BASE_URL}/api/affiliates`, {
     method: "POST",
     headers: {
@@ -100,14 +115,17 @@ export async function createAffiliate(data: { name: string; email: string; campa
     },
     body: JSON.stringify(data),
   })
+  console.log("Response status:", response.status, response.statusText)
   if (!response.ok) {
     const errorText = await response.text()
+    console.error("Error response:", errorText)
     throw new Error("Failed to create affiliate")
   }
   return response.json()
 }
 
 export async function updateAffiliate(id: number, data: { name: string; email: string; campaigns?: string[] }): Promise<any> {
+  console.log("Updating affiliate", id, "with data:", data)
   const response = await fetch(`${API_BASE_URL}/api/affiliates/${id}`, {
     method: "PATCH",
     headers: {
@@ -115,8 +133,10 @@ export async function updateAffiliate(id: number, data: { name: string; email: s
     },
     body: JSON.stringify(data),
   })
+  console.log("Response status:", response.status, response.statusText)
   if (!response.ok) {
     const errorText = await response.text()
+    console.error("Error response:", errorText)
     throw new Error("Failed to update affiliate")
   }
   return response.json()
@@ -166,6 +186,7 @@ export async function updateMetric(id: number, data: any): Promise<any> {
   const response = await fetch(`${API_BASE_URL}/api/metrics/${id}`, {
     method: "PATCH",
     headers: {
+      // API Platform expects JSON Merge Patch for PATCH
       "Content-Type": "application/merge-patch+json",
     },
     body: JSON.stringify(data),
@@ -181,6 +202,7 @@ export async function deleteMetric(id: number): Promise<void> {
   if (!response.ok) throw new Error("Failed to delete metric")
 }
 
+// Chatbot API
 export async function sendChatMessage(query: string, campaignId?: number): Promise<any> {
   const response = await fetch(`${API_BASE_URL}/api/chatbot/query`, {
     method: "POST",

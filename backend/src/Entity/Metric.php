@@ -81,12 +81,21 @@ class Metric
     #[ORM\Column]
     #[Groups(['metric:read', 'campaign:read:full'])]
     private ?\DateTimeImmutable $updatedAt = null;
-
+  
+    /**
+     * Constructor for Metric.
+     *
+     * Initializes creation and update timestamps.
+     * Written plainly so it's easy to understand.
+     */ 
+    
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
     }
+
+    
 
     public function getId(): ?int
     {
@@ -228,6 +237,12 @@ class Metric
 
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
+    /**
+     * Recalculate the campaign aggregates.
+     *
+     * This makes sure the campaign's totals are updated when this metric changes.
+     * It calls calculateRevenueAndRoi on the campaign if there is one.
+     */
     public function recalculateCampaignAggregates(): void
     {
         // Ensure parent campaign aggregates stay consistent when metrics change

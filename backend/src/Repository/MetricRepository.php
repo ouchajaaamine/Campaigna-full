@@ -11,6 +11,11 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class MetricRepository extends ServiceEntityRepository
 {
+    /**
+     * Constructor for MetricRepository.
+     *
+     * Sets up the repository with the manager registry.
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Metric::class);

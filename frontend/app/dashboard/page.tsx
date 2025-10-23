@@ -4,7 +4,7 @@ import { useEffect, useState, useMemo } from "react"
 import { StatsCard } from "@/components/dashboard/stats-card"
 import { RevenueChart } from "@/components/dashboard/revenue-chart"
 import { DollarSign, TrendingUp, Target, Activity, Users, Zap, Search } from "lucide-react"
-import { fetchCampaigns, fetchTopMetrics, fetchAffiliates } from "@/lib/api"
+import { fetchCampaigns, fetchTopMetrics, fetchAffiliates, fetchCampaignRevenueAndRoi } from "@/lib/api"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -34,14 +34,18 @@ export default function DashboardPage() {
           fetchAffiliates()
         ])
 
-        // No need to fetch revenue and ROI separately, it's now part of the campaign object
-        const updatedCampaigns = campaignsData.map((campaign: any) => ({
-          ...campaign,
-          totalRevenue: parseFloat(campaign.totalRevenue || 0),
-          roiPercentage: parseFloat(campaign.roiPercentage || 0),
-        }))
+        const campaignsWithRevenueAndRoi = await Promise.all(
+          campaignsData.map(async (campaign: any) => {
+            const roiData = await fetchCampaignRevenueAndRoi(campaign.id)
+            return {
+              ...campaign,
+              totalRevenue: roiData.totalRevenue,
+              roiPercentage: roiData.roiPercentage,
+            }
+          })
+        )
 
-        setCampaigns(updatedCampaigns)
+        setCampaigns(campaignsWithRevenueAndRoi)
         setMetrics(metricsData)
         setAffiliates(affiliatesData)
       } catch (error) {

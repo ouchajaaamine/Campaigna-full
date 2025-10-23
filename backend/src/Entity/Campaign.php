@@ -109,6 +109,13 @@ class Campaign
         $this->calculateRevenueAndRoi();
     }
 
+    /**
+     * Calculate the total revenue and ROI for this campaign.
+     *
+     * It goes through all the metrics, adds up the revenue from each one.
+     * If a metric doesn't have revenue but its name has "revenue" in it, it uses the value instead.
+     * Then it sets the totalRevenue and figures out the ROI percentage based on the budget.
+     */
     public function calculateRevenueAndRoi(): void
     {
         $totalRevenue = 0.0;
@@ -252,6 +259,10 @@ class Campaign
     }
 
     /**
+     * Get the metrics for this campaign.
+     *
+     * Returns a Collection of Metric objects.
+     *
      * @return Collection<int, Metric>|Metric[]
      */
     public function getMetrics(): Collection
@@ -281,6 +292,10 @@ class Campaign
     }
 
     /**
+     * Get the affiliates for this campaign.
+     *
+     * Returns a Collection of Affiliate objects.
+     *
      * @return Collection<int, Affiliate>|Affiliate[]
      */
     public function getAffiliates(): Collection
@@ -306,4 +321,3 @@ class Campaign
 
 
 }
-

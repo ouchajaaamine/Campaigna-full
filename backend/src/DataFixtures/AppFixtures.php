@@ -10,6 +10,13 @@ use Doctrine\Persistence\ObjectManager;
 
 class AppFixtures extends Fixture
 {
+    /**
+     * Load sample data for the app.
+     *
+     * This creates campaigns, affiliates, and metrics to fill the database with test data.
+     *
+     * @param ObjectManager $manager The manager to save the data to the database.
+     */
     public function load(ObjectManager $manager): void
     {
         $campaigns = [];

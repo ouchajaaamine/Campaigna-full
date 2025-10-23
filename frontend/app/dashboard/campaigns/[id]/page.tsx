@@ -25,9 +25,6 @@ export default function CampaignDetailPage() {
         const campaignData = await fetchCampaign(campaignId)
         setCampaign(campaignData)
 
-        
-        const totalRevenue = Number(campaignData.totalRevenue ?? 0)
-        const roiPercentage = Number(campaignData.roiPercentage ?? 0)
         setCampaign((prev: any) => ({
           ...prev,
           totalRevenue,
@@ -146,7 +143,7 @@ export default function CampaignDetailPage() {
               </div>
             </Card>
 
-            <Card className="relative overflow-hidden p-6 bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-md border-border/60 shadow-lg hover:shadow-xl transition-shadow">
+                  <p className="text-3xl font-bold text-emerald-600 mt-1">{formatCurrency(campaign.revenue || 0)}</p>
               <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-2xl"></div>
               <div className="flex items-center gap-4">
                 <div className="rounded-xl bg-gradient-to-br from-emerald-500/20 to-emerald-500/10 p-4 shadow-inner">
@@ -159,7 +156,7 @@ export default function CampaignDetailPage() {
               </div>
             </Card>
 
-            <Card className="relative overflow-hidden p-6 bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-md border-border/60 shadow-lg hover:shadow-xl transition-shadow">
+                  <p className="text-3xl font-bold text-blue-600 mt-1">{campaign.roi?.toFixed(2) || '0.00'}%</p>
               <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full blur-2xl"></div>
               <div className="flex items-center gap-4">
                 <div className="rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-500/10 p-4 shadow-inner">
@@ -187,7 +184,7 @@ export default function CampaignDetailPage() {
                 
                 <div className="flex items-center justify-between mb-6">
                   <div>
-                    <p className="text-sm text-muted-foreground mb-1">Budget Spent</p>
+                    <p className="text-2xl font-bold text-blue-600">{campaign.roi?.toFixed(2) || '0.00'}%</p>
                     <p className="text-2xl font-bold text-foreground">
                       {formatCurrency(campaign.totalRevenue ?? campaign.revenue ?? 0)} 
                         <span className="text-lg text-muted-foreground font-normal"> / {formatCurrency(Number(campaign.budget) ?? 0)}</span>

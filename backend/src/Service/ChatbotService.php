@@ -19,6 +19,11 @@ class ChatbotService
     private LoggerInterface $logger;
     private const OPENROUTER_MODEL = 'openai/gpt-4o-mini';
 
+    /**
+     * Constructor for ChatbotService.
+     *
+     * Sets up the service with things it needs like HTTP client, database manager, cache, and logger.
+     */
     public function __construct(
         HttpClientInterface $httpClient,
         ParameterBagInterface $parameterBag,
@@ -33,6 +38,15 @@ class ChatbotService
         $this->logger = $logger;
     }
 
+    /**
+     * Generate a response to a user's query.
+     *
+     * It uses cache to avoid repeating work, builds a prompt, calls the AI API, and if that fails, gives a fallback answer.
+     *
+     * @param string $query The question from the user.
+     * @param array|null $campaignContext Info about the campaign, if any.
+     * @return string The response text.
+     */
     public function generateResponse(string $query, ?array $campaignContext = null): string
     {
         $campaignId = $campaignContext['campaign_id'] ?? null;
@@ -52,6 +66,15 @@ class ChatbotService
         }
     }
 
+    /**
+     * Build the prompt to send to the AI.
+     *
+     * It starts with a base message about being an assistant, adds campaign data if given, and includes the user's query.
+     *
+     * @param string $query The user's question.
+     * @param array|null $campaignContext Campaign details.
+     * @return string The full prompt.
+     */
     private function buildPrompt(string $query, ?array $campaignContext = null): string
     {
         $basePrompt = "You are an AI assistant specializing in advertising campaign management and ROI analysis. ";
@@ -68,6 +91,15 @@ class ChatbotService
         return $basePrompt;
     }
 
+    /**
+     * Call the OpenRouter API to get AI response.
+     *
+     * Sends a POST request with the prompt and gets back the AI's answer. If something goes wrong, it throws an error.
+     *
+     * @param string $prompt The message to send to AI.
+     * @return string The AI's response.
+     * @throws \Exception If the API call fails.
+     */
     private function callOpenRouterAPI(string $prompt): string
     {
         $url = "https://openrouter.ai/api/v1/chat/completions";
@@ -112,6 +144,14 @@ class ChatbotService
         }
     }
 
+    /**
+     * Get context info for a campaign.
+     *
+     * Fetches the campaign from database, calculates totals from metrics, and returns an array with campaign details and metrics summary.
+     *
+     * @param int $campaignId The ID of the campaign.
+     * @return array|null The context data, or null if campaign not found.
+     */
     public function getCampaignContext(int $campaignId): ?array
     {
         $cacheKey = "chatbot_campaign_{$campaignId}";
@@ -181,6 +221,15 @@ class ChatbotService
         }
     }
 
+    /**
+     * Generate a fallback response when AI fails.
+     *
+     * If there's campaign context, it makes a message with campaign info. Otherwise, a general sorry message.
+     *
+     * @param string $query The original query.
+     * @param array|null $campaignContext Campaign data.
+     * @return string The fallback response.
+     */
     private function generateFallbackResponse(string $query, ?array $campaignContext = null): string
     {
         if ($campaignContext) {

@@ -21,6 +21,11 @@ class ChatbotController extends AbstractController
     private ValidatorInterface $validator;
     private LoggerInterface $logger;
 
+    /**
+     * Constructor for ChatbotController.
+     *
+     * Sets up the controller with the chatbot service, serializer, validator, and logger.
+     */
     public function __construct(
         ChatbotService $chatbotService,
         SerializerInterface $serializer,
@@ -33,6 +38,15 @@ class ChatbotController extends AbstractController
         $this->logger = $logger;
     }
 
+    /**
+     * Handle a chatbot query request.
+     *
+     * Takes the query from the request, gets campaign context if needed, generates a response using the service, and returns it as JSON.
+     * If something goes wrong, it logs the error and returns an error message.
+     *
+     * @param ChatbotRequest $chatbotRequest The request with the query and optional campaign ID.
+     * @return JsonResponse The response with the chatbot answer or an error.
+     */
     #[Route('/chatbot/query', name: 'chatbot_query', methods: ['POST'])]
     public function query(ChatbotRequest $chatbotRequest): JsonResponse
     {
