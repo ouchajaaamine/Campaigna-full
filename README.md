@@ -2,7 +2,7 @@
 
 **AI-Powered Campaign Management Platform**
 
-A full-stack application for managing advertising campaigns with real-time analytics and AI-powered insights.
+A full-stack application for tracking and analyzing advertising campaign performance with interactive dashboards and AI-powered insights.
 
 [![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?style=flat-square&logo=docker)](https://www.docker.com/)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=next.js)](https://nextjs.org/)
@@ -10,34 +10,52 @@ A full-stack application for managing advertising campaigns with real-time analy
 
 ---
 
-## Screenshots
+## 📸 Screenshots
 
-### Dashboard
+### 📊 Dashboard Overview
 ![Dashboard Overview](./screenshots/Screenshot%202025-10-18%20175653.png)
 
-### Campaign List
-![Campaign List](./screenshots/Screenshot%202025-10-18%20175713.png)
-
-### AI Assistant
-![AI Chatbot](./screenshots/Screenshot%202025-10-18%20180909.png)
-
-### Campaign Details
-![Campaign Detail](./screenshots/Screenshot%202025-10-18%20181143.png)
-
-### Affiliates
-![Affiliates List](./screenshots/Screenshot%202025-10-18%20181246.png)
+The main dashboard provides a comprehensive view of your campaigns performance with key metrics including total revenue, active campaigns, affiliate count, conversions, and conversion rates. Interactive charts display revenue trends and performance data over time, helping you monitor campaign effectiveness and identify opportunities for optimization.
 
 ---
 
-## Features
+### 📋 Campaign Management
+![Campaign List](./screenshots/Screenshot%202025-10-18%20175713.png)
 
-- **Campaign Management** - Create, edit, and monitor advertising campaigns
-- **Real-Time Analytics** - Track revenue, ROI, and conversion metrics
-- **AI Assistant** - Get insights and optimization recommendations
-- **Affiliate Management** - Manage partners and track commissions
-- **Interactive Dashboards** - Visualize performance with charts and graphs
+View campaign performance metrics directly from the dashboard. Track budget allocation, revenue generation, and ROI percentages for each campaign. Filter campaigns by date range and search by campaign name to focus on specific performance data.
 
-## Tech Stack
+---
+
+### 🤖 AI Assistant
+![AI Chatbot](./screenshots/Screenshot%202025-10-18%20180909.png)
+
+Ask questions about your campaigns in natural language and receive AI-powered responses. The assistant analyzes your campaign data and provides insights, recommendations, and answers to specific queries about performance and optimization.
+
+---
+
+### 🎯 Campaign Details
+![Campaign Detail](./screenshots/Screenshot%202025-10-18%20181143.png)
+
+Access detailed campaign analytics including budget usage, revenue generation, ROI percentages, and associated affiliates. Each campaign's data is aggregated and visualized to provide clear insights into performance metrics.
+
+---
+
+### 👥 Affiliate Overview
+![Affiliates List](./screenshots/Screenshot%202025-10-18%20181246.png)
+
+Track affiliate partnerships and their campaign associations. View affiliate information and monitor overall affiliate engagement across your campaigns.
+
+---
+
+## ✨ Features
+
+- **Campaign Analytics** - Track revenue, ROI, and performance metrics
+- **Real-Time Dashboard** - Monitor campaign performance with interactive charts
+- **AI Assistant** - Get insights and recommendations through natural language queries
+- **Affiliate Tracking** - Monitor affiliate partnerships and associations
+- **Performance Visualization** - View trends and analytics with charts and graphs
+
+## 🛠 Tech Stack
 
 **Frontend:**
 - Next.js 15 (App Router)
@@ -58,7 +76,7 @@ A full-stack application for managing advertising campaigns with real-time analy
 **Infrastructure:**
 - Docker & Docker Compose
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 - Docker Desktop
@@ -69,14 +87,13 @@ A full-stack application for managing advertising campaigns with real-time analy
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/ouchajaaamine/Campaigna-full.git
-cd Campaigna-full
+git clone https://github.com/ouchajaaamine/Campaigna.git
+cd Campaigna
 ```
 
 2. Set up environment variables:
 ```bash
-# The .env file is already configured with default values
-# Edit .env if you need to change the OpenRouter API token
+cp .env.example .env
 ```
 
 Edit `.env` and add your OpenRouter API token (optional, for AI features):
@@ -91,16 +108,16 @@ docker compose up --build
 
 The startup process will initialize the database, run migrations, and load sample data.
 
-## Access Points
+## 🌐 Access Points
 
 | Service | URL |
 |---------|-----|
 | Frontend | http://localhost:3000 |
-| API Documentation | http://localhost:8000/api |
+| SWAGGER Documentation | http://localhost:8000/api/docs |
 | Dashboard | http://localhost:3000/dashboard |
 | Database | localhost:5432 (user: `app`, password: `app`) |
 
-## Development
+## 💻 Development
 
 ### Basic Commands
 ```bash
@@ -131,7 +148,7 @@ docker compose exec app sh
 docker compose exec frontend sh
 ```
 
-## Contributing
+## 🤝 Contributing
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/new-feature`)
@@ -139,10 +156,10 @@ docker compose exec frontend sh
 4. Push to the branch (`git push origin feature/new-feature`)
 5. Open a Pull Request
 
-## Project Structure
+## 📁 Project Structure
 
 ```
-Campaigna-full/
+Campaigna/
 ├── backend/                 # Symfony API application
 │   ├── src/                # PHP source code
 │   ├── config/             # Symfony configuration
@@ -161,6 +178,6 @@ Campaigna-full/
 
 ---
 
-## Disclaimer
+## 📝 Disclaimer
 
-This project was developed by me as a learning experience. I used AI tools (including Claude and other AI assistants) throughout the development process to help me understand concepts, debug issues, and learn best practices in full-stack development. The AI tools served as educational resources and coding assistants while I built this application.
+This project was developed as part of my learning journey, with AI tools used only to help me understand concepts, debug issues, and improve my development approach.
