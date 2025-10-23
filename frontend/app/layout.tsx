@@ -9,7 +9,7 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "AdKompaign - Campaign Management Platform",
+  title: "Campaigna - Campaign Management Platform",
   description: "AI-powered campaign management and analytics",
   generator: "v0.app",
 }

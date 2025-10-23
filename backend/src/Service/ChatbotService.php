@@ -76,8 +76,8 @@ class ChatbotService
             'headers' => [
                 'Authorization' => 'Bearer ' . $this->openRouterToken,
                 'Content-Type' => 'application/json',
-                'HTTP-Referer' => 'https://adkompaign.com',
-                'X-Title' => 'AdKompaign Chatbot',
+                'HTTP-Referer' => 'https://campaigna.com',
+                'X-Title' => 'Campaigna Chatbot',
             ],
             'json' => [
                 'model' => self::OPENROUTER_MODEL,
