@@ -2,7 +2,6 @@ export const API_BASE_URL = (typeof process !== 'undefined' && process.env.NEXT_
   ? process.env.NEXT_PUBLIC_API_BASE_URL
   : (process.env.API_BASE_URL || "http://localhost:8000")
 
-// Helper to unwrap API Platform JSON-LD collections
 function unwrapCollection(json: any): any[] {
   if (!json) return []
   if (Array.isArray(json["hydra:member"])) return json["hydra:member"]
@@ -11,7 +10,6 @@ function unwrapCollection(json: any): any[] {
   return []
 }
 
-// Campaign API
 export async function fetchCampaigns(): Promise<any[]> {
   try {
     const response = await fetch(`${API_BASE_URL}/api/campaigns`, { headers: { Accept: 'application/ld+json' } })
@@ -70,7 +68,8 @@ export async function fetchAffiliates(): Promise<any[]> {
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
-  return response.json();
+  const data = await response.json();
+  return unwrapCollection(data);
 }
 export async function fetchChatbotResponse(message: string): Promise<string> {
   const response = await fetch(`${API_BASE_URL}/api/chatbot`, {

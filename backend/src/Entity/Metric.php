@@ -10,6 +10,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 #[ApiResource(
     normalizationContext: ['groups' => ['metric:read']],
@@ -70,6 +71,7 @@ class Metric
     #[ORM\ManyToOne(inversedBy: 'metrics')]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['metric:read', 'metric:write', 'campaign:read:full'])]
+    #[MaxDepth(1)]
     private ?Campaign $campaign = null;
 
     #[ORM\Column]

@@ -49,10 +49,8 @@ export default function CampaignDetailPage() {
           }
         }
 
-        if (Array.isArray(campaignData.metrics) && campaignData.metrics.length) {
-          const metricsData = await Promise.all(campaignData.metrics.map((iri: string) => fetchIri(iri)))
-          setMetrics(metricsData.filter(Boolean))
-        }
+        // Metrics are now embedded directly in the campaign response
+        setMetrics(campaignData.metrics || [])
 
         if (Array.isArray(campaignData.affiliates) && campaignData.affiliates.length) {
           const affiliatesData = await Promise.all(campaignData.affiliates.map((iri: string) => fetchIri(iri)))
@@ -259,7 +257,7 @@ export default function CampaignDetailPage() {
                       >
                         <div className="flex items-center justify-between mb-3">
                           <p className="text-xs text-muted-foreground font-medium">
-                            {m.date ? new Date(m.date).toLocaleDateString() : (m.createdAt ? new Date(m.createdAt).toLocaleDateString() : '—')}
+                            {m.timestamp ? new Date(m.timestamp).toLocaleDateString() : (m.createdAt ? new Date(m.createdAt).toLocaleDateString() : '—')}
                           </p>
                           <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></div>
                         </div>
@@ -274,7 +272,7 @@ export default function CampaignDetailPage() {
                           </div>
                           <div className="text-right">
                             <p className="text-xs text-muted-foreground mb-1">Revenue</p>
-                            <p className="text-xl font-bold text-emerald-600">{formatCurrency(m.revenue ?? 0)}</p>
+                            <p className="text-xl font-bold text-emerald-600">{formatCurrency(m.revenue || 0)}</p>
                           </div>
                         </div>
                       </div>

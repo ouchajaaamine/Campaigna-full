@@ -17,13 +17,14 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 #[ORM\Entity]
 #[ORM\HasLifecycleCallbacks]
 #[ApiResource(
     operations: [
         new GetCollection(),
-        new Get(normalizationContext: ['groups' => ['campaign:read:full']]),
+        new Get(normalizationContext: ['groups' => ['campaign:read:full'], 'enable_max_depth' => true]),
         new Post(),
         new Put(),
         new Delete()
@@ -78,6 +79,7 @@ class Campaign
 
     #[ORM\OneToMany(mappedBy: 'campaign', targetEntity: Metric::class, orphanRemoval: true)]
     #[Groups(['campaign:read', 'campaign:read:full'])]
+    #[MaxDepth(1)]
     private Collection $metrics;
 
     #[ORM\ManyToMany(targetEntity: Affiliate::class, inversedBy: 'campaigns')]

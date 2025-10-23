@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Campaign;
 use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 #[ApiResource(
     normalizationContext: ['groups' => ['affiliate:read']],
@@ -34,6 +35,7 @@ class Affiliate
 
     #[ORM\ManyToMany(targetEntity: Campaign::class, mappedBy: "affiliates")]
     #[Groups(['affiliate:read', 'affiliate:write'])]
+    #[MaxDepth(1)]
     private Collection $campaigns;
 
     #[ORM\Column]

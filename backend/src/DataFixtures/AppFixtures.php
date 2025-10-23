@@ -237,7 +237,6 @@ class AppFixtures extends Fixture
         $campaign15->setStatus('draft');
         $manager->persist($campaign15);
 
-        // Create Affiliates with business-focused partnerships
         $affiliate1 = new Affiliate();
         $affiliate1->setName('Tech Review Network');
         $affiliate1->setEmail('contact@techreviewnetwork.com');
@@ -392,6 +391,9 @@ class AppFixtures extends Fixture
         $metric4 = new Metric();
         $metric4->setName('Tech Reviews');
         $metric4->setValue('125.00');
+        $metric4->setClicks(125);
+        $metric4->setConversions(25);
+        $metric4->setRevenue('125.00');
         $metric4->setNotes('Product reviews and testimonials shared');
         $metric4->setTimestamp(new \DateTimeImmutable('2025-07-01'));
         $metric4->setCampaign($campaign1);
@@ -401,6 +403,9 @@ class AppFixtures extends Fixture
         $metric5 = new Metric();
         $metric5->setName('Seasonal Catalog Views');
         $metric5->setValue('3450.00');
+        $metric5->setClicks(3450);
+        $metric5->setConversions(69);
+        $metric5->setRevenue('3450.00');
         $metric5->setNotes('Winter clothing catalog page views');
         $metric5->setTimestamp(new \DateTimeImmutable('2025-12-05'));
         $metric5->setCampaign($campaign2);
@@ -409,6 +414,9 @@ class AppFixtures extends Fixture
         $metric6 = new Metric();
         $metric6->setName('Conversion Analytics');
         $metric6->setValue('18.75');
+        $metric6->setClicks(1840);
+        $metric6->setConversions(34);
+        $metric6->setRevenue('1840.00');
         $metric6->setNotes('Percentage of visitors who made purchases');
         $metric6->setTimestamp(new \DateTimeImmutable('2025-12-10'));
         $metric6->setCampaign($campaign2);
@@ -417,6 +425,9 @@ class AppFixtures extends Fixture
         $metric7 = new Metric();
         $metric7->setName('Winter Collection Sales');
         $metric7->setValue('2400.00');
+        $metric7->setClicks(1200);
+        $metric7->setConversions(48);
+        $metric7->setRevenue('2400.00');
         $metric7->setNotes('Revenue from winter apparel and accessories');
         $metric7->setTimestamp(new \DateTimeImmutable('2025-12-20'));
         $metric7->setCampaign($campaign2);
@@ -426,6 +437,9 @@ class AppFixtures extends Fixture
         $metric8 = new Metric();
         $metric8->setName('Student Account Creations');
         $metric8->setValue('675.00');
+        $metric8->setClicks(675);
+        $metric8->setConversions(135);
+        $metric8->setRevenue('675.00');
         $metric8->setNotes('New student accounts registered');
         $metric8->setTimestamp(new \DateTimeImmutable('2025-08-20'));
         $metric8->setCampaign($campaign3);
@@ -434,6 +448,9 @@ class AppFixtures extends Fixture
         $metric9 = new Metric();
         $metric9->setName('Resource Downloads');
         $metric9->setValue('480.00');
+        $metric9->setClicks(960);
+        $metric9->setConversions(96);
+        $metric9->setRevenue('480.00');
         $metric9->setNotes('Educational materials downloaded');
         $metric9->setTimestamp(new \DateTimeImmutable('2025-08-25'));
         $metric9->setCampaign($campaign3);
@@ -442,6 +459,9 @@ class AppFixtures extends Fixture
         $metric10 = new Metric();
         $metric10->setName('Academic Inquiries');
         $metric10->setValue('270.00');
+        $metric10->setClicks(540);
+        $metric10->setConversions(54);
+        $metric10->setRevenue('270.00');
         $metric10->setNotes('Contact forms from educational institutions');
         $metric10->setTimestamp(new \DateTimeImmutable('2025-09-01'));
         $metric10->setCampaign($campaign3);
@@ -460,6 +480,9 @@ class AppFixtures extends Fixture
         $metric11 = new Metric();
         $metric11->setName('Brand Awareness Coverage');
         $metric11->setValue('95.00');
+        $metric11->setClicks(1900);
+        $metric11->setConversions(19);
+        $metric11->setRevenue('95.00');
         $metric11->setNotes('Media mentions and brand coverage');
         $metric11->setTimestamp(new \DateTimeImmutable('2025-03-15'));
         $metric11->setCampaign($campaign4);
@@ -476,6 +499,9 @@ class AppFixtures extends Fixture
         $metric13 = new Metric();
         $metric13->setName('Social Media Growth');
         $metric13->setValue('1850.00');
+        $metric13->setClicks(18500);
+        $metric13->setConversions(185);
+        $metric13->setRevenue('1850.00');
         $metric13->setNotes('New followers from brand relaunch campaign');
         $metric13->setTimestamp(new \DateTimeImmutable('2025-04-15'));
         $metric13->setCampaign($campaign4);
@@ -486,6 +512,9 @@ class AppFixtures extends Fixture
         $metric14 = new Metric();
         $metric14->setName('Tool Sales Performance');
         $metric14->setValue('435.00');
+        $metric14->setClicks(870);
+        $metric14->setConversions(87);
+        $metric14->setRevenue('435.00');
         $metric14->setNotes('Power tools and equipment purchases');
         $metric14->setTimestamp(new \DateTimeImmutable('2025-04-10'));
         $metric14->setCampaign($campaign5);
@@ -494,6 +523,9 @@ class AppFixtures extends Fixture
         $metric15 = new Metric();
         $metric15->setName('DIY Project Leads');
         $metric15->setValue('234.00');
+        $metric15->setClicks(1170);
+        $metric15->setConversions(117);
+        $metric15->setRevenue('234.00');
         $metric15->setNotes('Contact forms from homeowners');
         $metric15->setTimestamp(new \DateTimeImmutable('2025-05-01'));
         $metric15->setCampaign($campaign5);
@@ -502,6 +534,9 @@ class AppFixtures extends Fixture
         $metric16 = new Metric();
         $metric16->setName('Workshop Registrations');
         $metric16->setValue('127.50');
+        $metric16->setClicks(510);
+        $metric16->setConversions(51);
+        $metric16->setRevenue('127.50');
         $metric16->setNotes('Signups for home improvement training');
         $metric16->setTimestamp(new \DateTimeImmutable('2025-05-15'));
         $metric16->setCampaign($campaign5);
@@ -520,6 +555,9 @@ class AppFixtures extends Fixture
         $metric17 = new Metric();
         $metric17->setName('App Subscriptions');
         $metric17->setValue('510.00');
+        $metric17->setClicks(1020);
+        $metric17->setConversions(102);
+        $metric17->setRevenue('510.00');
         $metric17->setNotes('New premium app subscriptions');
         $metric17->setTimestamp(new \DateTimeImmutable('2025-01-20'));
         $metric17->setCampaign($campaign6);
@@ -528,6 +566,9 @@ class AppFixtures extends Fixture
         $metric18 = new Metric();
         $metric18->setName('Mobile App Downloads');
         $metric18->setValue('1875.00');
+        $metric18->setClicks(7500);
+        $metric18->setConversions(750);
+        $metric18->setRevenue('1875.00');
         $metric18->setNotes('App store installations');
         $metric18->setTimestamp(new \DateTimeImmutable('2025-02-01'));
         $metric18->setCampaign($campaign6);
@@ -536,6 +577,9 @@ class AppFixtures extends Fixture
         $metric19 = new Metric();
         $metric19->setName('Fitness Consultations');
         $metric19->setValue('142.50');
+        $metric19->setClicks(570);
+        $metric19->setConversions(57);
+        $metric19->setRevenue('142.50');
         $metric19->setNotes('Booked personal training sessions');
         $metric19->setTimestamp(new \DateTimeImmutable('2025-02-15'));
         $metric19->setCampaign($campaign6);
@@ -544,6 +588,9 @@ class AppFixtures extends Fixture
         $metric20 = new Metric();
         $metric20->setName('Nutrition Program Sales');
         $metric20->setValue('270.00');
+        $metric20->setClicks(540);
+        $metric20->setConversions(54);
+        $metric20->setRevenue('270.00');
         $metric20->setNotes('Custom diet plan purchases');
         $metric20->setTimestamp(new \DateTimeImmutable('2025-03-01'));
         $metric20->setCampaign($campaign6);
@@ -562,6 +609,9 @@ class AppFixtures extends Fixture
         $metric21 = new Metric();
         $metric21->setName('Platform Traffic Surge');
         $metric21->setValue('7500.00');
+        $metric21->setClicks(7500);
+        $metric21->setConversions(375);
+        $metric21->setRevenue('7500.00');
         $metric21->setNotes('Website visitors during promotional period');
         $metric21->setTimestamp(new \DateTimeImmutable('2025-11-25'));
         $metric21->setCampaign($campaign7);
@@ -570,6 +620,9 @@ class AppFixtures extends Fixture
         $metric22 = new Metric();
         $metric22->setName('Sales Volume Metrics');
         $metric22->setValue('1875.00');
+        $metric22->setClicks(3750);
+        $metric22->setConversions(188);
+        $metric22->setRevenue('1875.00');
         $metric22->setNotes('Total units sold during promotion');
         $metric22->setTimestamp(new \DateTimeImmutable('2025-11-29'));
         $metric22->setCampaign($campaign7);
@@ -586,6 +639,9 @@ class AppFixtures extends Fixture
         $metric24 = new Metric();
         $metric24->setName('Service Page Visits');
         $metric24->setValue('4800.00');
+        $metric24->setClicks(4800);
+        $metric24->setConversions(240);
+        $metric24->setRevenue('4800.00');
         $metric24->setNotes('Digital service landing page views');
         $metric24->setTimestamp(new \DateTimeImmutable('2025-12-01'));
         $metric24->setCampaign($campaign8);
@@ -594,6 +650,9 @@ class AppFixtures extends Fixture
         $metric25 = new Metric();
         $metric25->setName('Service Subscriptions');
         $metric25->setValue('1335.00');
+        $metric25->setClicks(2670);
+        $metric25->setConversions(267);
+        $metric25->setRevenue('1335.00');
         $metric25->setNotes('Digital service packages sold');
         $metric25->setTimestamp(new \DateTimeImmutable('2025-12-02'));
         $metric25->setCampaign($campaign8);
@@ -610,6 +669,9 @@ class AppFixtures extends Fixture
         $metric27 = new Metric();
         $metric27->setName('Beauty Product Views');
         $metric27->setValue('2700.00');
+        $metric27->setClicks(2700);
+        $metric27->setConversions(135);
+        $metric27->setRevenue('2700.00');
         $metric27->setNotes('Premium beauty product page views');
         $metric27->setTimestamp(new \DateTimeImmutable('2025-02-05'));
         $metric27->setCampaign($campaign9);
@@ -618,6 +680,9 @@ class AppFixtures extends Fixture
         $metric28 = new Metric();
         $metric28->setName('Luxury Beauty Sales');
         $metric28->setValue('630.00');
+        $metric28->setClicks(1260);
+        $metric28->setConversions(126);
+        $metric28->setRevenue('630.00');
         $metric28->setNotes('Units sold from premium beauty line');
         $metric28->setTimestamp(new \DateTimeImmutable('2025-02-14'));
         $metric28->setCampaign($campaign9);
@@ -634,6 +699,9 @@ class AppFixtures extends Fixture
         $metric30 = new Metric();
         $metric30->setName('Entertainment Signups');
         $metric30->setValue('975.00');
+        $metric30->setClicks(1950);
+        $metric30->setConversions(195);
+        $metric30->setRevenue('975.00');
         $metric30->setNotes('Family entertainment package subscriptions');
         $metric30->setTimestamp(new \DateTimeImmutable('2025-03-25'));
         $metric30->setCampaign($campaign10);
@@ -642,6 +710,9 @@ class AppFixtures extends Fixture
         $metric31 = new Metric();
         $metric31->setName('Media Package Sales');
         $metric31->setValue('570.00');
+        $metric31->setClicks(1140);
+        $metric31->setConversions(114);
+        $metric31->setRevenue('570.00');
         $metric31->setNotes('Entertainment bundles and subscriptions');
         $metric31->setTimestamp(new \DateTimeImmutable('2025-04-10'));
         $metric31->setCampaign($campaign10);
@@ -658,6 +729,9 @@ class AppFixtures extends Fixture
         $metric33 = new Metric();
         $metric33->setName('Course Catalog Views');
         $metric33->setValue('3150.00');
+        $metric33->setClicks(3150);
+        $metric33->setConversions(158);
+        $metric33->setRevenue('3150.00');
         $metric33->setNotes('Professional development course listings viewed');
         $metric33->setTimestamp(new \DateTimeImmutable('2025-05-05'));
         $metric33->setCampaign($campaign11);
@@ -666,6 +740,9 @@ class AppFixtures extends Fixture
         $metric34 = new Metric();
         $metric34->setName('Course Enrollments');
         $metric34->setValue('435.00');
+        $metric34->setClicks(870);
+        $metric34->setConversions(87);
+        $metric34->setRevenue('435.00');
         $metric34->setNotes('Students enrolled in professional courses');
         $metric34->setTimestamp(new \DateTimeImmutable('2025-05-10'));
         $metric34->setCampaign($campaign11);
@@ -674,6 +751,8 @@ class AppFixtures extends Fixture
         $metric35 = new Metric();
         $metric35->setName('Education Revenue');
         $metric35->setValue('13800.00');
+        $metric35->setClicks(27600);
+        $metric35->setConversions(2760);
         $metric35->setNotes('Revenue from professional development courses');
         $metric35->setTimestamp(new \DateTimeImmutable('2025-05-12'));
         $metric35->setCampaign($campaign11);
@@ -682,6 +761,8 @@ class AppFixtures extends Fixture
         $metric36 = new Metric();
         $metric36->setName('Tech Solution Searches');
         $metric36->setValue('2400.00');
+        $metric36->setClicks(4800);
+        $metric36->setConversions(480);
         $metric36->setNotes('Searches for technology solutions');
         $metric36->setTimestamp(new \DateTimeImmutable('2025-06-08'));
         $metric36->setCampaign($campaign12);
@@ -690,6 +771,8 @@ class AppFixtures extends Fixture
         $metric37 = new Metric();
         $metric37->setName('Solution Sales');
         $metric37->setValue('510.00');
+        $metric37->setClicks(1020);
+        $metric37->setConversions(102);
         $metric37->setNotes('Technology solution packages sold');
         $metric37->setTimestamp(new \DateTimeImmutable('2025-06-15'));
         $metric37->setCampaign($campaign12);
@@ -698,6 +781,8 @@ class AppFixtures extends Fixture
         $metric38 = new Metric();
         $metric38->setName('Tech Solutions Revenue');
         $metric38->setValue('11700.00');
+        $metric38->setClicks(23400);
+        $metric38->setConversions(2340);
         $metric38->setNotes('Revenue from technology solution sales');
         $metric38->setTimestamp(new \DateTimeImmutable('2025-06-16'));
         $metric38->setCampaign($campaign12);
@@ -706,6 +791,8 @@ class AppFixtures extends Fixture
         $metric39 = new Metric();
         $metric39->setName('Adventure Gear Views');
         $metric39->setValue('1800.00');
+        $metric39->setClicks(3600);
+        $metric39->setConversions(360);
         $metric39->setNotes('Outdoor equipment and gear page views');
         $metric39->setTimestamp(new \DateTimeImmutable('2025-06-25'));
         $metric39->setCampaign($campaign13);
@@ -714,6 +801,8 @@ class AppFixtures extends Fixture
         $metric40 = new Metric();
         $metric40->setName('Equipment Sales');
         $metric40->setValue('420.00');
+        $metric40->setClicks(840);
+        $metric40->setConversions(84);
         $metric40->setNotes('Outdoor adventure gear sold');
         $metric40->setTimestamp(new \DateTimeImmutable('2025-07-02'));
         $metric40->setCampaign($campaign13);
@@ -722,6 +811,8 @@ class AppFixtures extends Fixture
         $metric41 = new Metric();
         $metric41->setName('Adventure Gear Revenue');
         $metric41->setValue('9600.00');
+        $metric41->setClicks(19200);
+        $metric41->setConversions(1920);
         $metric41->setNotes('Revenue from outdoor adventure products');
         $metric41->setTimestamp(new \DateTimeImmutable('2025-07-04'));
         $metric41->setCampaign($campaign13);
@@ -731,6 +822,8 @@ class AppFixtures extends Fixture
         $metric42 = new Metric();
         $metric42->setName('Art Supply Searches');
         $metric42->setValue('1425.00');
+        $metric42->setClicks(2850);
+        $metric42->setConversions(285);
         $metric42->setNotes('Creative arts supplies and materials searches');
         $metric42->setTimestamp(new \DateTimeImmutable('2025-10-20'));
         $metric42->setCampaign($campaign14);
@@ -739,6 +832,8 @@ class AppFixtures extends Fixture
         $metric43 = new Metric();
         $metric43->setName('Art Material Orders');
         $metric43->setValue('630.00');
+        $metric43->setClicks(1260);
+        $metric43->setConversions(126);
         $metric43->setNotes('Art supplies and creative materials ordered');
         $metric43->setTimestamp(new \DateTimeImmutable('2025-10-28'));
         $metric43->setCampaign($campaign14);
@@ -747,6 +842,8 @@ class AppFixtures extends Fixture
         $metric44 = new Metric();
         $metric44->setName('Creative Arts Revenue');
         $metric44->setValue('2500.00');
+        $metric44->setClicks(5000);
+        $metric44->setConversions(500);
         $metric44->setNotes('Revenue from art supplies and materials');
         $metric44->setTimestamp(new \DateTimeImmutable('2025-10-31'));
         $metric44->setCampaign($campaign14);
@@ -756,6 +853,8 @@ class AppFixtures extends Fixture
         $metric45 = new Metric();
         $metric45->setName('Recipe Content Views');
         $metric45->setValue('2700.00');
+        $metric45->setClicks(5400);
+        $metric45->setConversions(540);
         $metric45->setNotes('Gourmet recipe and meal planning content');
         $metric45->setTimestamp(new \DateTimeImmutable('2025-11-18'));
         $metric45->setCampaign($campaign15);
@@ -764,6 +863,8 @@ class AppFixtures extends Fixture
         $metric46 = new Metric();
         $metric46->setName('Meal Kit Orders');
         $metric46->setValue('525.00');
+        $metric46->setClicks(1050);
+        $metric46->setConversions(105);
         $metric46->setNotes('Gourmet meal delivery packages sold');
         $metric46->setTimestamp(new \DateTimeImmutable('2025-11-25'));
         $metric46->setCampaign($campaign15);
@@ -772,6 +873,8 @@ class AppFixtures extends Fixture
         $metric47 = new Metric();
         $metric47->setName('Food Delivery Revenue');
         $metric47->setValue('3500.00');
+        $metric47->setClicks(7000);
+        $metric47->setConversions(700);
         $metric47->setNotes('Revenue from gourmet food delivery services');
         $metric47->setTimestamp(new \DateTimeImmutable('2025-11-28'));
         $metric47->setCampaign($campaign15);
