@@ -33,7 +33,8 @@
         "phpstan/phpstan": "^1.10",
         "phpstan/extension-installer": "^1.3",
         "phpstan/phpstan-symfony": "^1.3",
-        "phpstan/phpstan-doctrine": "^1.3"
+        "phpstan/phpstan-doctrine": "^1.3",
+        "phpunit/phpunit": "10"
     },
     "config": {
         "allow-plugins": {
