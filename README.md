@@ -148,6 +148,19 @@ docker compose exec app sh
 docker compose exec frontend sh
 ```
 
+## ✅ Testing & Code quality
+
+We keep things simple: small PHPDoc comments were added in the backend to explain purpose and types, PHPStan is set up for lightweight static checks, and PHPUnit runs the unit tests.
+
+Quick commands (run from the `backend` folder):
+```powershell
+# static analysis
+vendor\bin\phpstan analyse
+
+# run tests
+vendor\bin\phpunit
+```
+
 ## 🤝 Contributing
 
 1. Fork the repository
