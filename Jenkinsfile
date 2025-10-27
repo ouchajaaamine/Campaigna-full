@@ -1,5 +1,7 @@
 pipeline {
-  agent any
+  agent {
+    label ''
+  }
 
   environment {
     BACKEND_DIR = 'backend'
