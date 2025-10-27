@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  jenkins:
+    build: .
+    image: jenkins-custom:latest
+    container_name: jenkins-local
+    privileged: true
+    user: root
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./plugins.txt:/usr/share/jenkins/ref/plugins.txt
+    environment:
+      - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
+      - CASC_JENKINS_CONFIG=/var/jenkins_home/casc.yaml
+    restart: unless-stopped
+    networks:
+      - jenkins
+
+volumes:
+  jenkins_home:
+    driver: local
+
+networks:
+  jenkins:
+    driver: bridge

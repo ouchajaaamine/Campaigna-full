@@ -1,0 +1,31 @@
+# Core Jenkins Plugins
+git:latest
+github:latest
+github-branch-source:latest
+pipeline-stage-view:latest
+workflow-aggregator:latest
+credentials-binding:latest
+ssh-agent:latest
+
+# Docker Support
+docker-workflow:latest
+docker-plugin:latest
+
+# Test & Quality
+junit:latest
+performance:latest
+
+# UI & Visualization
+blueocean:latest
+dashboard-view:latest
+simple-theme-plugin:latest
+
+# GitHub Integration
+github-pullrequest:latest
+pipeline-github:latest
+
+# Utilities
+timestamper:latest
+ws-cleanup:latest
+ansicolor:latest
+build-timeout:latest

@@ -28,3 +28,7 @@ Thumbs.db
 # Temporary folders
 tmp/
 temp/
+
+# Jenkins local data
+jenkins/jenkins_home/
+jenkins/.env
