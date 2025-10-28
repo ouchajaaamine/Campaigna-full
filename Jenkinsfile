@@ -19,8 +19,8 @@ pipeline {
                 echo '🔨 Building frontend...'
                 dir('frontend') {
                     sh '''
-                        npm install
-                        npm run build
+                        pnpm install
+                        pnpm run build
                     '''
                 }
             }
