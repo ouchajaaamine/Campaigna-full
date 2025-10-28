@@ -1,5 +1,6 @@
 pipeline {
     agent any
+
     
     stages {
         stage('Checkout') {
@@ -12,7 +13,6 @@ pipeline {
             agent {
                 docker {
                     image 'php:8.2-cli'
-                    args '-v $HOME/.composer:/root/.composer'
                 }
             }
             steps {
