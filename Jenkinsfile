@@ -19,6 +19,11 @@ pipeline {
                 echo '🔨 Building frontend...'
                 dir('frontend') {
                     sh '''
+                        # Enable Corepack and install pnpm
+                        corepack enable
+                        corepack prepare pnpm@latest --activate
+                        
+                        # Install dependencies and build
                         pnpm install
                         pnpm run build
                     '''
