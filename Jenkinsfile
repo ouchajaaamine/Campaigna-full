@@ -1,58 +1,38 @@
 pipeline {
-  agent {
-    label ''
-  }
-
-  environment {
-    BACKEND_DIR = 'backend'
-    COMPOSE_FILE = "${env.WORKSPACE}/${BACKEND_DIR}/.ci/docker-compose.test.yml"
-  }
-
-  stages {
-    stage('Checkout') {
-      steps {
-        checkout scm
-      }
-    }
-
-    stage('Start test stack') {
-      steps {
-        dir("${BACKEND_DIR}") {
-          sh './.ci/test-stack.sh || true'
+    agent any
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                echo '📦 Checking out code...'
+                checkout scm
+            }
         }
-      }
-    }
-
-    stage('Frontend build') {
-      steps {
-        dir('frontend') {
-          sh '''
-            if command -v pnpm >/dev/null 2>&1; then
-              pnpm install --frozen-lockfile
-              pnpm build
-            else
-              npm ci
-              npm run build
-            fi
-          '''
+        
+        stage('Build Frontend') {
+            agent {
+                docker {
+                    image 'node:18-alpine'
+                }
+            }
+            steps {
+                echo '🔨 Building frontend...'
+                dir('frontend') {
+                    sh '''
+                        npm install
+                        npm run build
+                    '''
+                }
+            }
         }
-      }
     }
-  }
-
-  post {
-    always {
-      dir("${BACKEND_DIR}") {
-        sh 'docker compose -f .ci/docker-compose.test.yml down -v || true'
-      }
-      archiveArtifacts artifacts: "${BACKEND_DIR}/build/**, ${BACKEND_DIR}/junit.xml", allowEmptyArchive: true
-      junit allowEmptyResults: true, testResults: "${BACKEND_DIR}/junit.xml"
+    
+    post {
+        success {
+            echo '✅ Build completed successfully!'
+        }
+        failure {
+            echo '❌ Build failed. Check the logs above.'
+        }
     }
-    success {
-      echo 'Pipeline succeeded'
-    }
-    failure {
-      echo 'Pipeline failed'
-    }
-  }
 }

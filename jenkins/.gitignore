@@ -1,9 +1,0 @@
-# Add jenkins directory to .gitignore (but keep config files)
-*
-!.gitignore
-!Dockerfile
-!docker-compose.yml
-!plugins.txt
-!casc.yaml
-!README.md
-!start-jenkins.ps1

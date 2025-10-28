@@ -1,30 +1,38 @@
-version: '3.8'
-
 services:
   jenkins:
-    build: .
-    image: jenkins-custom:latest
-    container_name: jenkins-local
-    privileged: true
+    image: jenkins/jenkins:lts
+    container_name: jenkins
     user: root
     ports:
       - "8080:8080"
-      - "50000:50000"
     volumes:
-      - jenkins_home:/var/jenkins_home
+      - jenkins_data:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./plugins.txt:/usr/share/jenkins/ref/plugins.txt
+      - ./install-plugins.sh:/usr/local/bin/install-plugins.sh
     environment:
       - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
-      - CASC_JENKINS_CONFIG=/var/jenkins_home/casc.yaml
+      - JENKINS_ADMIN_ID=admin
+      - JENKINS_ADMIN_PASSWORD=admin
     restart: unless-stopped
-    networks:
-      - jenkins
+    entrypoint: /bin/bash
+    command: 
+      - -c
+      - |
+        # Install Docker CLI
+        apt-get update && apt-get install -y docker.io
+        
+        # Install essential plugins
+        jenkins-plugin-cli --plugins \
+          blueocean \
+          docker-workflow \
+          git \
+          github \
+          github-branch-source \
+          workflow-aggregator \
+          pipeline-stage-view
+        
+        # Start Jenkins
+        /usr/local/bin/jenkins.sh
 
 volumes:
-  jenkins_home:
-    driver: local
-
-networks:
-  jenkins:
-    driver: bridge
+  jenkins_data:
