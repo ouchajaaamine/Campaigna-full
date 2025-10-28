@@ -1,6 +1,7 @@
 services:
   jenkins:
-    image: jenkins/jenkins:lts
+    build: .
+    image: jenkins-custom:latest
     container_name: jenkins
     user: root
     ports:
@@ -8,31 +9,11 @@ services:
     volumes:
       - jenkins_data:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./install-plugins.sh:/usr/local/bin/install-plugins.sh
     environment:
       - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
       - JENKINS_ADMIN_ID=admin
       - JENKINS_ADMIN_PASSWORD=admin
     restart: unless-stopped
-    entrypoint: /bin/bash
-    command: 
-      - -c
-      - |
-        # Install Docker CLI
-        apt-get update && apt-get install -y docker.io
-        
-        # Install essential plugins
-        jenkins-plugin-cli --plugins \
-          blueocean \
-          docker-workflow \
-          git \
-          github \
-          github-branch-source \
-          workflow-aggregator \
-          pipeline-stage-view
-        
-        # Start Jenkins
-        /usr/local/bin/jenkins.sh
 
 volumes:
   jenkins_data:

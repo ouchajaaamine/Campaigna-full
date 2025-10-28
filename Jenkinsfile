@@ -35,7 +35,8 @@ pipeline {
             }
             steps {
                 dir('backend') {
-                    sh 'vendor/bin/phpstan analyse --error-format=table --no-progress'
+                    // Increase PHPStan memory limit to avoid worker crashes on 128M default
+                    sh 'vendor/bin/phpstan analyse --error-format=table --no-progress --memory-limit=512M'
                 }
             }
         }
