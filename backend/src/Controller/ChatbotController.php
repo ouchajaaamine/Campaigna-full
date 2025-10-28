@@ -17,8 +17,6 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class ChatbotController extends AbstractController
 {
     private ChatbotService $chatbotService;
-    private SerializerInterface $serializer;
-    private ValidatorInterface $validator;
     private LoggerInterface $logger;
 
     /**
@@ -28,13 +26,9 @@ class ChatbotController extends AbstractController
      */
     public function __construct(
         ChatbotService $chatbotService,
-        SerializerInterface $serializer,
-        ValidatorInterface $validator,
         LoggerInterface $logger
     ) {
         $this->chatbotService = $chatbotService;
-        $this->serializer = $serializer;
-        $this->validator = $validator;
         $this->logger = $logger;
     }
 

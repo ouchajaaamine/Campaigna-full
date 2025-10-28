@@ -77,11 +77,17 @@ class Campaign
     #[Groups(['campaign:read', 'campaign:read:full'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    /**
+     * @var Collection<int, Metric>
+     */
     #[ORM\OneToMany(mappedBy: 'campaign', targetEntity: Metric::class, orphanRemoval: true)]
     #[Groups(['campaign:read', 'campaign:read:full'])]
     #[MaxDepth(1)]
     private Collection $metrics;
 
+    /**
+     * @var Collection<int, Affiliate>
+     */
     #[ORM\ManyToMany(targetEntity: Affiliate::class, inversedBy: 'campaigns')]
     #[Groups(['campaign:read', 'campaign:write', 'campaign:read:full'])]
     private Collection $affiliates;

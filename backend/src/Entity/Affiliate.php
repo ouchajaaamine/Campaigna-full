@@ -33,6 +33,9 @@ class Affiliate
     #[Groups(['affiliate:read', 'affiliate:write'])]
     private ?string $email = null;
 
+    /**
+     * @var Collection<int, Campaign>
+     */
     #[ORM\ManyToMany(targetEntity: Campaign::class, mappedBy: "affiliates")]
     #[Groups(['affiliate:read', 'affiliate:write'])]
     #[MaxDepth(1)]

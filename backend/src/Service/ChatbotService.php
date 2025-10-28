@@ -44,7 +44,7 @@ class ChatbotService
      * It uses cache to avoid repeating work, builds a prompt, calls the AI API, and if that fails, gives a fallback answer.
      *
      * @param string $query The question from the user.
-     * @param array|null $campaignContext Info about the campaign, if any.
+     * @param array<string,mixed>|null $campaignContext Info about the campaign, if any.
      * @return string The response text.
      */
     public function generateResponse(string $query, ?array $campaignContext = null): string
@@ -72,7 +72,7 @@ class ChatbotService
      * It starts with a base message about being an assistant, adds campaign data if given, and includes the user's query.
      *
      * @param string $query The user's question.
-     * @param array|null $campaignContext Campaign details.
+     * @param array<string,mixed>|null $campaignContext Campaign details.
      * @return string The full prompt.
      */
     private function buildPrompt(string $query, ?array $campaignContext = null): string
@@ -150,7 +150,7 @@ class ChatbotService
      * Fetches the campaign from database, calculates totals from metrics, and returns an array with campaign details and metrics summary.
      *
      * @param int $campaignId The ID of the campaign.
-     * @return array|null The context data, or null if campaign not found.
+     * @return array<string,mixed>|null The context data, or null if campaign not found.
      */
     public function getCampaignContext(int $campaignId): ?array
     {
@@ -227,7 +227,7 @@ class ChatbotService
      * If there's campaign context, it makes a message with campaign info. Otherwise, a general sorry message.
      *
      * @param string $query The original query.
-     * @param array|null $campaignContext Campaign data.
+     * @param array<string,mixed>|null $campaignContext Campaign data.
      * @return string The fallback response.
      */
     private function generateFallbackResponse(string $query, ?array $campaignContext = null): string

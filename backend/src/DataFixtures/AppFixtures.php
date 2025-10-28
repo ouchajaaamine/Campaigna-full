@@ -156,89 +156,89 @@ class AppFixtures extends Fixture
         $manager->persist($campaign15);
         $campaigns[] = $campaign15;
 
-        $campaign5->setName('Home Improvement Tools');
-        $campaign5->setBudget(8500.00);
+    $campaign5->setName('Home Improvement Tools');
+    $campaign5->setBudget('8500.00');
         $campaign5->setStartDate(new \DateTimeImmutable('2025-04-01'));
         $campaign5->setEndDate(new \DateTimeImmutable('2025-06-30'));
         $campaign5->setStatus('active');
         $manager->persist($campaign5);
 
-        $campaign6 = new Campaign();
-        $campaign6->setName('Health & Fitness App');
-        $campaign6->setBudget(6200.00);
+    $campaign6 = new Campaign();
+    $campaign6->setName('Health & Fitness App');
+    $campaign6->setBudget('6200.00');
         $campaign6->setStartDate(new \DateTimeImmutable('2025-01-15'));
         $campaign6->setEndDate(new \DateTimeImmutable('2025-03-15'));
         $campaign6->setStatus('completed');
         $manager->persist($campaign6);
 
         // Additional Campaigns for more comprehensive data
-        $campaign7 = new Campaign();
-        $campaign7->setName('E-commerce Platform Sale');
-        $campaign7->setBudget(25000.00);
+    $campaign7 = new Campaign();
+    $campaign7->setName('E-commerce Platform Sale');
+    $campaign7->setBudget('25000.00');
         $campaign7->setStartDate(new \DateTimeImmutable('2025-11-20'));
         $campaign7->setEndDate(new \DateTimeImmutable('2025-11-30'));
         $campaign7->setStatus('draft');
         $manager->persist($campaign7);
 
-        $campaign8 = new Campaign();
-        $campaign8->setName('Digital Services Bundle');
-        $campaign8->setBudget(18000.00);
+    $campaign8 = new Campaign();
+    $campaign8->setName('Digital Services Bundle');
+    $campaign8->setBudget('18000.00');
         $campaign8->setStartDate(new \DateTimeImmutable('2025-12-01'));
         $campaign8->setEndDate(new \DateTimeImmutable('2025-12-02'));
         $campaign8->setStatus('draft');
         $manager->persist($campaign8);
 
-        $campaign9 = new Campaign();
-        $campaign9->setName('Premium Beauty Products');
-        $campaign9->setBudget(4500.00);
+    $campaign9 = new Campaign();
+    $campaign9->setName('Premium Beauty Products');
+    $campaign9->setBudget('4500.00');
         $campaign9->setStartDate(new \DateTimeImmutable('2025-02-01'));
         $campaign9->setEndDate(new \DateTimeImmutable('2025-02-14'));
         $campaign9->setStatus('completed');
         $manager->persist($campaign9);
 
-        $campaign10 = new Campaign();
-        $campaign10->setName('Family Entertainment Package');
-        $campaign10->setBudget(3200.00);
+    $campaign10 = new Campaign();
+    $campaign10->setName('Family Entertainment Package');
+    $campaign10->setBudget('3200.00');
         $campaign10->setStartDate(new \DateTimeImmutable('2025-03-20'));
         $campaign10->setEndDate(new \DateTimeImmutable('2025-04-20'));
         $campaign10->setStatus('completed');
         $manager->persist($campaign10);
 
-        $campaign11 = new Campaign();
-        $campaign11->setName('Professional Development Courses');
-        $campaign11->setBudget(5500.00);
+    $campaign11 = new Campaign();
+    $campaign11->setName('Professional Development Courses');
+    $campaign11->setBudget('5500.00');
         $campaign11->setStartDate(new \DateTimeImmutable('2025-05-01'));
         $campaign11->setEndDate(new \DateTimeImmutable('2025-05-12'));
         $campaign11->setStatus('active');
         $manager->persist($campaign11);
 
-        $campaign12 = new Campaign();
-        $campaign12->setName('Technology Solutions Suite');
-        $campaign12->setBudget(4800.00);
+    $campaign12 = new Campaign();
+    $campaign12->setName('Technology Solutions Suite');
+    $campaign12->setBudget('4800.00');
         $campaign12->setStartDate(new \DateTimeImmutable('2025-06-01'));
         $campaign12->setEndDate(new \DateTimeImmutable('2025-06-16'));
         $campaign12->setStatus('active');
         $manager->persist($campaign12);
 
-        $campaign13 = new Campaign();
-        $campaign13->setName('Outdoor Adventure Gear');
-        $campaign13->setBudget(3800.00);
+    $campaign13 = new Campaign();
+    $campaign13->setName('Outdoor Adventure Gear');
+    $campaign13->setBudget('3800.00');
         $campaign13->setStartDate(new \DateTimeImmutable('2025-06-20'));
         $campaign13->setEndDate(new \DateTimeImmutable('2025-07-04'));
         $campaign13->setStatus('active');
         $manager->persist($campaign13);
 
-        $campaign14 = new Campaign();
-        $campaign14->setName('Creative Arts Supplies');
-        $campaign14->setBudget(2900.00);
+    $campaign14 = new Campaign();
+    $campaign14->setName('Creative Arts Supplies');
+    $campaign14->setBudget('2900.00');
         $campaign14->setStartDate(new \DateTimeImmutable('2025-10-15'));
         $campaign14->setEndDate(new \DateTimeImmutable('2025-10-31'));
         $campaign14->setStatus('active');
         $manager->persist($campaign14);
 
-        $campaign15 = new Campaign();
-        $campaign15->setName('Gourmet Food Delivery');
-        $campaign15->setBudget(4100.00);
+    $campaign15 = new Campaign();
+    $campaign15->setName('Gourmet Food Delivery');
+    $campaign15->setBudget('4100.00');
         $campaign15->setStartDate(new \DateTimeImmutable('2025-11-15'));
         $campaign15->setEndDate(new \DateTimeImmutable('2025-11-28'));
         $campaign15->setStatus('draft');
