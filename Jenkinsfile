@@ -18,8 +18,10 @@ pipeline {
             steps {
                 dir('backend') {
                     sh '''
+                        apt-get update -qq
+                        apt-get install -y -qq git unzip
                         curl -sS https://getcomposer.org/installer | php
-                        php composer.phar install --no-interaction --prefer-dist
+                        php composer.phar install --no-interaction --prefer-dist --no-progress
                     '''
                 }
             }
