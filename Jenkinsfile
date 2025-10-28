@@ -4,26 +4,69 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                echo '📦 Checking out code...'
                 checkout scm
             }
         }
         
-        stage('Build Frontend') {
+        stage('Backend Dependencies') {
+            agent {
+                docker {
+                    image 'php:8.2-cli'
+                    args '-v $HOME/.composer:/root/.composer'
+                }
+            }
+            steps {
+                dir('backend') {
+                    sh '''
+                        curl -sS https://getcomposer.org/installer | php
+                        php composer.phar install --no-interaction --prefer-dist
+                    '''
+                }
+            }
+        }
+        
+        stage('PHPStan Analysis') {
+            agent {
+                docker {
+                    image 'php:8.2-cli'
+                }
+            }
+            steps {
+                dir('backend') {
+                    sh 'vendor/bin/phpstan analyse --error-format=table --no-progress'
+                }
+            }
+        }
+        
+        stage('PHPUnit Tests') {
+            agent {
+                docker {
+                    image 'php:8.2-cli'
+                }
+            }
+            steps {
+                dir('backend') {
+                    sh 'vendor/bin/phpunit --log-junit test-results.xml'
+                }
+            }
+            post {
+                always {
+                    junit 'backend/test-results.xml'
+                }
+            }
+        }
+        
+        stage('Frontend Build') {
             agent {
                 docker {
                     image 'node:18-alpine'
                 }
             }
             steps {
-                echo '🔨 Building frontend...'
                 dir('frontend') {
                     sh '''
-                        # Enable Corepack and install pnpm
                         corepack enable
                         corepack prepare pnpm@latest --activate
-                        
-                        # Install dependencies and build
                         pnpm install
                         pnpm run build
                     '''
@@ -34,10 +77,13 @@ pipeline {
     
     post {
         success {
-            echo '✅ Build completed successfully!'
+            echo 'Build completed successfully'
         }
         failure {
-            echo '❌ Build failed. Check the logs above.'
+            echo 'Build failed'
+        }
+        always {
+            cleanWs()
         }
     }
 }
