@@ -27,6 +27,33 @@ pipeline {
             }
         }
         
+        stage('Trivy: Scan Composer Dependencies') {
+            agent {
+                docker {
+                    image 'aquasec/trivy:latest'
+                    args '--entrypoint=""'
+                }
+            }
+            steps {
+                dir('backend') {
+                    sh '''
+                        trivy fs \
+                            --scanners vuln \
+                            --severity CRITICAL,HIGH,MEDIUM \
+                            --format table \
+                            --output trivy-composer-report.json \
+                            --exit-code 0 \
+                            .
+                    '''
+                }
+            }
+            post {
+                always {
+                    archiveArtifacts artifacts: 'backend/trivy-composer-report.json', allowEmptyArchive: true
+                }
+            }
+        }
+        
         stage('PHPStan Analysis') {
             agent {
                 docker {
