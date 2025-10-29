@@ -86,6 +86,33 @@ pipeline {
             }
         }
         
+        stage('Trivy: Scan Frontend Dependencies') {
+            agent {
+                docker {
+                    image 'aquasec/trivy:latest'
+                    args '--entrypoint=""'
+                }
+            }
+            steps {
+                dir('frontend') {
+                    sh '''
+                        trivy fs \
+                            --scanners vuln \
+                            --severity CRITICAL,HIGH,MEDIUM \
+                            --format table \
+                            --output trivy-frontend-report.json \
+                            --exit-code 0 \
+                            .
+                    '''
+                }
+            }
+            post {
+                always {
+                    archiveArtifacts artifacts: 'frontend/trivy-frontend-report.json', allowEmptyArchive: true
+                }
+            }
+        }
+        
         stage('Frontend Build') {
             agent {
                 docker {
