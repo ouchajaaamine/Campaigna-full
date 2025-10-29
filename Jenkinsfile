@@ -62,7 +62,6 @@ pipeline {
             }
             steps {
                 dir('backend') {
-                    // Increase PHPStan memory limit to avoid worker crashes on 128M default
                     sh 'vendor/bin/phpstan analyse --error-format=table --no-progress --memory-limit=512M'
                 }
             }
@@ -127,6 +126,50 @@ pipeline {
                         pnpm install
                         pnpm run build
                     '''
+                }
+            }
+        }
+        
+        stage('Build Docker Images') {
+            steps {
+                script {
+                    sh '''
+                        docker build -t campaigna-backend:latest ./backend
+                        docker build -t campaigna-frontend:latest ./frontend
+                    '''
+                }
+            }
+        }
+        
+        stage('Trivy: Scan Docker Images') {
+            agent {
+                docker {
+                    image 'aquasec/trivy:latest'
+                    args '--entrypoint="" -v /var/run/docker.sock:/var/run/docker.sock'
+                }
+            }
+            steps {
+                sh '''
+                    echo "Scanning Backend Image..."
+                    trivy image \
+                        --severity CRITICAL,HIGH,MEDIUM \
+                        --format table \
+                        --output trivy-backend-image.json \
+                        --exit-code 0 \
+                        campaigna-backend:latest
+                    
+                    echo "Scanning Frontend Image..."
+                    trivy image \
+                        --severity CRITICAL,HIGH,MEDIUM \
+                        --format table \
+                        --output trivy-frontend-image.json \
+                        --exit-code 0 \
+                        campaigna-frontend:latest
+                '''
+            }
+            post {
+                always {
+                    archiveArtifacts artifacts: 'trivy-*-image.json', allowEmptyArchive: true
                 }
             }
         }
