@@ -1,6 +1,5 @@
 pipeline {
     agent any
-
     
     stages {
         stage('Checkout') {
@@ -171,6 +170,37 @@ pipeline {
                 always {
                     archiveArtifacts artifacts: 'trivy-*-image.json', allowEmptyArchive: true
                 }
+            }
+        }
+        
+        stage('Authenticate to ECR') {
+            steps {
+                withCredentials([
+                    string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
+                    string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')
+                ]) {
+                    sh '''
+                        aws ecr get-login-password --region eu-west-3 | docker login --username AWS --password-stdin 911541042693.dkr.ecr.eu-west-3.amazonaws.com
+                    '''
+                }
+            }
+        }
+        
+        stage('Tag and Push to ECR') {
+            steps {
+                sh '''
+                    COMMIT_SHA=$(git rev-parse --short HEAD)
+                    
+                    docker tag campaigna-backend:latest 911541042693.dkr.ecr.eu-west-3.amazonaws.com/campaigna-backend:$COMMIT_SHA
+                    docker tag campaigna-backend:latest 911541042693.dkr.ecr.eu-west-3.amazonaws.com/campaigna-backend:latest
+                    docker push 911541042693.dkr.ecr.eu-west-3.amazonaws.com/campaigna-backend:$COMMIT_SHA
+                    docker push 911541042693.dkr.ecr.eu-west-3.amazonaws.com/campaigna-backend:latest
+                    
+                    docker tag campaigna-frontend:latest 911541042693.dkr.ecr.eu-west-3.amazonaws.com/campaigna-frontend:$COMMIT_SHA
+                    docker tag campaigna-frontend:latest 911541042693.dkr.ecr.eu-west-3.amazonaws.com/campaigna-frontend:latest
+                    docker push 911541042693.dkr.ecr.eu-west-3.amazonaws.com/campaigna-frontend:$COMMIT_SHA
+                    docker push 911541042693.dkr.ecr.eu-west-3.amazonaws.com/campaigna-frontend:latest
+                '''
             }
         }
     }
